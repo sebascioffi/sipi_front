@@ -1,0 +1,201 @@
+body{
+    font-family: "Poppins", sans-serif;
+    background-color: #02040C;
+}
+
+.header{
+    background-image: url('../imagenes/fondopeliculas.jpg');
+    background-size:contain;
+    height: 360px;
+    color: #FFFFFF;
+}
+
+.menu{
+    height: 60px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: end;
+    padding-right: 20px;
+    padding-top: 10px;
+    font-style: italic;
+}
+
+.btn{
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    margin-right: 30px;
+    border-radius: 15px; 
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: 600;
+}
+
+.menu .btn-registrate {
+    border: 2.5px solid #E86405; /* Borde de color #E86405 */
+    background-color: #FFFFFF; /* Fondo blanco */
+    color: #E86405; /* Texto de color #E86405 */
+}
+
+.menu .btn-registrate:hover {
+    background-color: #d6d4d4;
+}
+
+.menu .btn-inicia-sesion {
+    border: 2px solid #FFFFFF; /* Borde de color blanco */
+    background-color: #E86405; /* Fondo de color #E86405 */
+    color: #FFFFFF; /* Texto blanco */
+}
+
+.menu .btn-inicia-sesion:hover {
+    background-color: #b95005;
+}
+
+.encabezado{
+    width: 70%;
+    margin: auto;
+    margin-top: 35px;
+    text-align: center;
+}
+
+.encabezado-h2{
+    font-size: 2.2em;
+}
+
+.encabezado-p{
+    font-size: 1.11em;
+}
+
+.encabezado-p-com{
+    font-size: 1.11em;
+    margin-top: 12px;
+}
+
+.encabezado-p-com strong{
+    color: #E86405;
+}
+
+@media screen and (max-width: 845px){
+    .encabezado{
+        width: 90%;
+        margin-top: 20px;
+    }
+    .encabezado-h2{
+        font-size: 1.7em;
+    }
+    .encabezado-p{
+        font-size: 0.8em;
+    }
+    .encabezado-p-com{
+        font-size: 0.8em;
+        margin-top: 12px;
+    }
+    .header{
+        height: 280px;
+    }
+
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 50px;
+    margin-top: 10px;
+    padding-left: 80px;
+    padding-right: 80px;
+    justify-content: space-between;
+}
+
+.filter-label {
+    color: #FFFFFF;
+    margin-right: 10px;
+    font-weight: 600;
+}
+
+.filter-select {
+    background-color: transparent;
+    border: 1px solid #E86405;
+    color: #FFFFFF;
+    padding: 5px;
+    border-radius: 5px;
+    font-family: "Poppins", sans-serif;
+}
+
+.filter-select:focus{
+    outline: none;
+    border-color: inherit
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+    border: 1px solid #E86405;
+    border-radius: 5px;
+    overflow: hidden;
+    transition: width 0.3s ease;
+    width: 30px; /* Tamaño inicial del botón */
+}
+
+.search-container.expanded {
+    width: 200px; /* Tamaño al expandirse */
+}
+
+.search-input {
+    border: none;
+    background: none;
+    color: white;
+    outline: none;
+    padding: 5px;
+    width: 100%; /* Ocupa todo el espacio disponible */
+}
+
+.search-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.search-button img {
+    width: 20px;
+    height: 20px;
+}
+
+.selectdiv{
+    display: flex;
+    gap: 60px;
+}
+
+.filter-select option{
+    color: black;
+    font-weight: 600;
+}
+
+@media screen and (max-width: 1195px){
+    .filter-container {
+        display: flex;
+        align-items: center;
+        padding: 10px;
+
+        margin-top: 10px;
+        padding-left: 30px;
+        padding-right: 30px;
+        justify-content: space-between;
+    }
+    .selectdiv{
+        gap: 25px;
+    }
+}
+
+@media screen and (max-width: 953px){
+    .filter-container {
+        flex-direction: column;
+    }
+    .selectdiv{
+        gap: 15px;
+        flex-direction: column;
+    }
+}
