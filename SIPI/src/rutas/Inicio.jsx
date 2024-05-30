@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import "../estilos/global.css"
 import { Link } from "react-router-dom"
+import item from "../imagenes/im.png"
 import lupa from "../imagenes/lupa.png"
 
 const Inicio = () => {
@@ -10,6 +11,10 @@ const Inicio = () => {
     const [generoBorderColor, setGeneroBorderColor] = useState('#E86405');
     const [añoBorderColor, setAñoBorderColor] = useState('#E86405');
     const [showInput, setShowInput] = useState(false);
+    const [movies, setMovies] = useState([]);
+
+    const fetch = require('node-fetch');
+    const containerRef = useRef(null);
   
     const handleSelectChange = (tipo, event, setBorderColor) => {
       if (event.target.value === tipo) {
@@ -21,6 +26,37 @@ const Inicio = () => {
 
     const toggleInput = () => {
         setShowInput((prev) => !prev);
+    };
+
+    const fetchPopularMovies = async () => {
+      const url = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1';
+      const options = {
+        method: 'GET',
+        headers: {
+          accept: 'application/json',
+          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YWM5OTZmNTQ4OTIzOTZhMzBlMWMyYjhkYmY1YjZiYSIsInN1YiI6IjYyODA2N2NkY2VlNDgxMDA2NjYyMGJlYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.e2pzE4WfInKObTQxR2DG5-GEZUJmwCyW6NCErHkdo2g'
+        }
+      };
+  
+      try {
+        const response = await fetch(url, options);
+        const data = await response.json();
+        setMovies(data.results);
+      } catch (error) {
+        console.error('error:', error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchPopularMovies();
+    }, []);
+  
+    const scrollContainer = (direction) => {
+      if (direction === 'left') {
+        containerRef.current.scrollBy({ left: -600, behavior: 'smooth' });
+      } else {
+        containerRef.current.scrollBy({ left: 600, behavior: 'smooth' });
+      }
     };
 
   return (
@@ -78,6 +114,7 @@ const Inicio = () => {
                 <option>Este año</option>
             </select>
             </div>
+
             <div className={`search-container ${showInput ? 'expanded' : ''}`}>
         {showInput && <input type="text" className="search-input" />}
         <button className="search-button" onClick={toggleInput}>
@@ -85,6 +122,31 @@ const Inicio = () => {
         </button>
       </div>
         </div>
+
+      <div className="container-m">
+      <div className='container-tm'>
+      <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M19 9.025L0 19V0L19 9.025Z" fill="#E86405"/>
+</svg>
+
+        <h1 className='popmovies'>Tendencias</h1>
+      </div>
+      <div className="movies-wrapper">
+        <button className="nav-button left" onClick={() => scrollContainer('left')}>{'<'}</button>
+        <div className="movies-container" ref={containerRef}>
+          {movies.map((movie) => (
+            <div key={movie.id} className="movie">
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+                className="movie-poster"
+              />
+            </div>
+          ))}
+        </div>
+        <button className="nav-button right" onClick={() => scrollContainer('right')}>{'>'}</button>
+      </div>
+    </div>
     </main>
     </>
   )
