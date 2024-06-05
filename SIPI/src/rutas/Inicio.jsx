@@ -16,6 +16,8 @@ const Inicio = () => {
     const [peliculasFiltro, setPeliculasFiltro] = useState([]);
     const [tipoSeleccionado, setTipoSeleccionado] = useState('');
     const [generoSeleccionado, setGeneroSeleccionado] = useState('');
+    const [plataformaSeleccionada, setPlataformaSeleccionada] = useState('');
+    const [añoSeleccionado, setAñoSeleccionado] = useState('');
 
     const fetch = require('node-fetch');
     const containerRef1 = useRef(null);
@@ -24,7 +26,7 @@ const Inicio = () => {
 
     useEffect(() => {
       const fetchData = async () => {
-        if (!tipoSeleccionado && !generoSeleccionado) {
+        if (!tipoSeleccionado && !generoSeleccionado && !plataformaSeleccionada && !añoSeleccionado) {
           setPeliculasFiltro([]);
           return;
         }
@@ -52,6 +54,28 @@ const Inicio = () => {
             }
           }
         }
+
+        let providerFilter = '';
+        let watchRegion = '&watch_region=AR';
+        if (plataformaSeleccionada){
+          providerFilter = `&with_watch_providers=${plataformaSeleccionada}`; 
+        }
+
+        
+        let añoDesde = '';
+        let añoHasta = '';
+        let añoFilter = ''; 
+        if (añoSeleccionado){
+          const valoresSeparados = añoSeleccionado.split(' ');
+          añoDesde = valoresSeparados[0];
+          añoHasta = valoresSeparados[1];
+          if (endpoint==="discover/movie"){
+            añoFilter = `&release_date.gte=${añoDesde}&release_date.lte=${añoHasta}`;
+          } else{
+            añoFilter = `&first_air_date.gte=${añoDesde}&first_air_date.lte=${añoHasta}`;
+          }
+        }
+
   
         let allResults = [];
         const options = {
@@ -63,7 +87,7 @@ const Inicio = () => {
         };
   
         for (let page = 1; page <= 5; page++) {
-          const url = `${baseUrl}${endpoint}?language=en-US&page=${page}&region=US&include_adult=false&vote_count.gte=100&vote_average.gte=7${genreFilter}`;
+          const url = `${baseUrl}${endpoint}?language=en-US&page=${page}&region=US&include_adult=false&vote_count.gte=100&vote_average.gte=7${genreFilter}${providerFilter}${añoFilter}${watchRegion}`;
           try {
             const response = await fetch(url, options);
             const data = await response.json();
@@ -81,7 +105,7 @@ const Inicio = () => {
       };
   
       fetchData();
-    }, [tipoSeleccionado, generoSeleccionado]);
+    }, [tipoSeleccionado, generoSeleccionado, plataformaSeleccionada, añoSeleccionado]);
     
   
     const handleSelectChange = (setSeleccionado, setBorderColor) => (event) => {
@@ -210,14 +234,16 @@ const Inicio = () => {
   <option value="Serie">Serie</option>
 </select>
 
-            <select className="filter-select" style={{ borderColor: plataformaBorderColor }} onChange={(event) => handleSelectChange('Plataforma', event, setPlataformaBorderColor)}>
-                <option>Plataforma</option>
-                <option>Netflix</option>
-                <option>Disney+</option>
-                <option>Star+</option>
-                <option>Paramount</option>
-                <option>Prime Video</option>
-                <option>HBO Max</option>
+            <select className="filter-select" style={{ borderColor: plataformaBorderColor }} onChange={handleSelectChange(setPlataformaSeleccionada, setPlataformaBorderColor)}>
+                <option value="">Plataforma</option>
+                <option value="8">Netflix</option>
+                <option value="337">Disney+</option>
+                <option value="119">Prime Video</option>
+                <option value="619">Star+</option>
+                <option value="384">HBO Max</option>
+                <option value="350">Apple Tv</option>
+                <option value="531">Paramount</option>
+                <option value="167">Claro Video</option>            
             </select>
 
             <select
@@ -233,21 +259,20 @@ const Inicio = () => {
   <option value="16">Animación</option>
   <option value="80">Crimen</option>
   <option value="9648">Terror</option>
-  <option value="10751">Romance</option>
+  <option value="10751">Familia</option>
   <option value="37">Wéstern</option>
   <option value="10768">Bélica</option>
 </select>
             
-            <select className="filter-select" style={{ borderColor: añoBorderColor }} onChange={(event) => handleSelectChange('Año', event, setAñoBorderColor)}>
-                <option>Año</option>
-                <option>1960-1969</option>
-                <option>1970-1979</option>
-                <option>1980-1989</option>
-                <option>1990-1999</option>
-                <option>2000-2009</option>
-                <option>2010-2019</option>
-                <option>2020-2024</option>
-                <option>Este año</option>
+            <select className="filter-select" style={{ borderColor: añoBorderColor }} onChange={handleSelectChange(setAñoSeleccionado, setAñoBorderColor)}>
+                <option value="">Año</option>
+                <option value="1960-01-01 1969-12-31">1960-1969</option>
+                <option value="1970-01-01 1979-12-31">1970-1979</option>
+                <option value="1980-01-01 1989-12-31">1980-1989</option>
+                <option value="1990-01-01 1999-12-31">1990-1999</option>
+                <option value="2000-01-01 2009-12-31">2000-2009</option>
+                <option value="2010-01-01 2019-12-31">2010-2019</option>
+                <option value="2020-01-01 2024-12-31">2020-2024</option>
             </select>
             </div>
 
