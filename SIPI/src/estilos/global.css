@@ -1,6 +1,7 @@
 body{
     font-family: "Poppins", sans-serif;
     background-color: #02040C;
+    color: #FFFFFF;
 }
 
 .header{
@@ -270,6 +271,35 @@ body{
     width: 95%;
     margin: auto;
     padding-top: 40px;
-    padding-bottom: 40px;
+    padding-bottom: 10px;
 }
 
+.header.inicio{
+    height: 240px;
+}
+
+.adorno{
+    width: 170px;
+    background-color: #E86405;
+    height: 5px;
+    border-radius: 20px;
+    margin-top: 1%;
+}
+
+.encabezado.inicio{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.movies-container-filtro{
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+    padding: 20px 0;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
