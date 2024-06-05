@@ -39,18 +39,18 @@ const Inicio = () => {
   
         let genreFilter = '';
         if (generoSeleccionado) {
+          genreFilter = `&with_genres=${generoSeleccionado}`;
           if (endpoint==="discover/movie"){
             if (generoSeleccionado === "10759"){
-              generoSeleccionado = "28";
+              genreFilter =`&with_genres=28`;;
             }
             if (generoSeleccionado === "10765"){
-              generoSeleccionado = "878";
+              genreFilter = `&with_genres=878`;;
             }
             if (generoSeleccionado === "10768"){
-              generoSeleccionado = "10752";
+              genreFilter = `&with_genres=10752`;;
             }
           }
-          genreFilter = `&with_genres=${generoSeleccionado}`;
         }
   
         let allResults = [];
