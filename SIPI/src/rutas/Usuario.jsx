@@ -1,9 +1,13 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "../estilos/global.css"
-import { Link } from "react-router-dom"
+import { Link, useParams } from 'react-router-dom';
 import lupa from "../imagenes/lupa.png"
+import user from '../imagenes/user.png'; 
+import logout from '../imagenes/logout.png'; 
 
-const Inicio = () => {
+const Usuario = () => {
+
+    const { nom_usuario } = useParams();
 
     const [tipoBorderColor, setTipoBorderColor] = useState('#E86405');
     const [plataformaBorderColor, setPlataformaBorderColor] = useState('#E86405');
@@ -20,7 +24,7 @@ const Inicio = () => {
     const [añoSeleccionado, setAñoSeleccionado] = useState('');
     const [searchText, setSearchText] = useState('');
     const [searchResults, setSearchResults] = useState([]);
-
+    const [tmdbId, setTmdbId] = useState(null);
 
     const fetch = require('node-fetch');
     const containerRef1 = useRef(null);
@@ -148,6 +152,45 @@ const Inicio = () => {
   
       fetchData();
     }, [searchText]);
+
+    useEffect(() => {
+      // Función para obtener el ID de TMDB
+      const fetchPlataformaId = async () => {
+        try {
+          const response = await fetch(`http://localhost:8080/user/plataformas/${nom_usuario}`);
+          if (!response.ok) {
+            throw new Error('Error en la solicitud');
+          }
+  
+          const plataformasIds = await response.json();
+
+          if (plataformasIds.plataformas.length > 0) {
+            // Selecciona un ID de plataforma al azar
+            const randomId = plataformasIds.plataformas[Math.floor(Math.random() * plataformasIds.plataformas.length)];
+
+            // Mapeo de IDs a los IDs correspondientes de TMDB
+            const idMapping = {
+              1: 337,
+              2: 619,
+              3: 531,
+              4: 8,
+              5: 119,
+              6: 384,
+              7: 350
+            };
+  
+            // Convierte el ID seleccionado al ID de TMDB correspondiente
+            const tmdbId = idMapping[randomId];
+            console.log("ID DE PLATAFORMA: " + tmdbId);
+            setTmdbId(tmdbId);
+          }
+        } catch (error) {
+          console.error('Error fetching platform IDs:', error);
+        }
+      };
+  
+      fetchPlataformaId();
+    }, [nom_usuario]);
     
   
     const handleSelectChange = (setSeleccionado, setBorderColor) => (event) => {
@@ -165,24 +208,31 @@ const Inicio = () => {
       setSearchText(event.target.value);
     };
 
-    const fetchPopularMovies = async () => {
-      const url = 'https://api.themoviedb.org/3/movie/popular?language=en-US&page=1';
-      const options = {
-        method: 'GET',
-        headers: {
-          accept: 'application/json',
-          Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YWM5OTZmNTQ4OTIzOTZhMzBlMWMyYjhkYmY1YjZiYSIsInN1YiI6IjYyODA2N2NkY2VlNDgxMDA2NjYyMGJlYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.e2pzE4WfInKObTQxR2DG5-GEZUJmwCyW6NCErHkdo2g'
+    useEffect(() => {
+      const fetchPopularMovies = async () => {
+        if (!tmdbId) return;
+  
+        const url = `https://api.themoviedb.org/3/discover/movie?with_watch_providers=${tmdbId}&watch_region=AR&language=en-US&sort_by=popularity.desc`;
+        const options = {
+          method: 'GET',
+          headers: {
+            accept: 'application/json',
+            Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YWM5OTZmNTQ4OTIzOTZhMzBlMWMyYjhkYmY1YjZiYSIsInN1YiI6IjYyODA2N2NkY2VlNDgxMDA2NjYyMGJlYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.e2pzE4WfInKObTQxR2DG5-GEZUJmwCyW6NCErHkdo2g'
+          }
+        };
+  
+        try {
+          const response = await fetch(url, options);
+          const data = await response.json();
+          setMovies(data.results);
+        } catch (error) {
+          console.error('Error fetching movies:', error);
         }
       };
   
-      try {
-        const response = await fetch(url, options);
-        const data = await response.json();
-        setMovies(data.results);
-      } catch (error) {
-        console.error('error:', error);
-      }
-    };
+      fetchPopularMovies();
+    }, [tmdbId]);
+
 
     const fetchSciFiMovies = async () => {
       const url = 'https://api.themoviedb.org/3/discover/movie?with_genres=878&sort_by=popularity.desc&language=en-US&page=2';
@@ -246,7 +296,6 @@ const Inicio = () => {
     };
   
     useEffect(() => {
-      fetchPopularMovies();
       fetchSciFiMovies();
       fetchTerrorMovies();
     }, []);
@@ -254,15 +303,15 @@ const Inicio = () => {
 
   return (
     <>
-    <header className='header'>
+    <header className='header usuario'>
         <div className='menu'>
-            <Link to={"/registro"} className="btn btn-registrate">Regístrate</Link>
-            <Link to={"/login"} className="btn btn-inicia-sesion">Inicia Sesión</Link>
-        </div>
-        <div className='encabezado'>
-            <h2 className='encabezado-h2'>Busca que ver de forma rápida y eficiente</h2>
-            <p className='encabezado-p'>Tu destino definitivo para descubrir y explorar películas o series en base a tus gustos y a tu plataforma de streaming preferida.</p>
-            <p className='encabezado-p-com'><Link to={"/login"}><strong>Inicia Sesión</strong></Link> o <Link to={"/registro"}><strong>Regístrate</strong></Link> para comenzar!</p>
+                <Link to={`/perfil/${nom_usuario}`} style={{ display: 'flex', alignItems: 'center' }}>
+            <span style={{color: "#ffffff"}}>{nom_usuario}</span>
+            <img src={user} alt="User Icon" style={{ width: '39px', height: '39px' }} />
+            </Link>
+            <Link to={`/`} style={{ display: 'flex', alignItems: 'center' }}>
+            <img src={logout} alt="Cerrar Sesión" style={{ width: '32px', height: '32px', marginLeft: "50px", marginRight:"40px"}} />
+            </Link>
         </div>
     </header>
     <main>
@@ -375,8 +424,17 @@ const Inicio = () => {
    <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
      <path d="M19 9.025L0 19V0L19 9.025Z" fill="#E86405"/>
    </svg>
-   <h1 className='popmovies'>Tendencias</h1>
+   <h1 className='popmovies'>
+  {tmdbId === 337 && "Que ver en Disney+"}
+  {tmdbId === 619 && "Que ver en Star+"}
+  {tmdbId === 531 && "Que ver en Paramount+"}
+  {tmdbId === 8 && "Que ver en Netflix"}
+  {tmdbId === 119 && "Que ver en Prime Video"}
+  {tmdbId === 384 && "Que ver en HBO Max"}
+  {tmdbId === 350 && "Que ver en Apple TV"}
+</h1>
  </div>
+
  <div className="movies-wrapper">
    <button className="nav-button left" onClick={() => scrollContainer1('left')}>{'<'}</button>
    <div className="movies-container" ref={containerRef1}>
@@ -394,6 +452,7 @@ const Inicio = () => {
    </div>
    <button className="nav-button right" onClick={() => scrollContainer1('right')}>{'>'}</button>
  </div>
+ 
 </div>
 
 
@@ -460,4 +519,4 @@ const Inicio = () => {
   )
 }
 
-export default Inicio
+export default Usuario
