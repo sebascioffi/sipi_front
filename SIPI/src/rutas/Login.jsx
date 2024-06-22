@@ -33,11 +33,9 @@ const handleSubmit = async (event) => {
           body: JSON.stringify({ nom_usuario: usuario, contraseña: contraseña })
       });
 
-      if (!response.ok) {
-        if (response.status === 400){
+        if (response.status === 401){
           throw new Error('Faltan datos necesarios');
         }
-      }
 
       const responseData = await response.json();
       console.log('Inicio de sesión exitoso:', responseData);

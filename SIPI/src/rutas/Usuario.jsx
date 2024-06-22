@@ -25,19 +25,172 @@ const Usuario = () => {
     const [searchText, setSearchText] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const [tmdbId, setTmdbId] = useState(null);
+    const [favSimilares, setFavSimilares] = useState([]);
+    const [favSimilaresGenero, setFavSimilaresGenero] = useState([]);
+    const [tituloUltimaFavorita, setTituloUltimaFavorita] = useState("");
 
     const fetch = require('node-fetch');
     const containerRef1 = useRef(null);
     const containerRef2 = useRef(null);
     const containerRef3 = useRef(null);
+    const containerRef4 = useRef(null);
+    const containerRef5 = useRef(null);
+
+    useEffect(() => {
+      const fetchUltimaFavorita = async () => {
+        try {
+          // Llamada al endpoint de tu backend para obtener la última película favorita
+          const response = await fetch(`http://localhost:8080/user/ultimaFavorita/${nom_usuario}`);
+          if (!response.ok) {
+            throw new Error('Error fetching ultimaFavorita');
+          }
+          const data = await response.json();
+          const peliculaId = data.ultimaFavorita;
+          const peliculaDetailsUrl = `https://api.themoviedb.org/3/movie/${peliculaId}?api_key=5ac996f54892396a30e1c2b8dbf5b6ba&language=en-US`;
+
+          const response3 = await fetch(peliculaDetailsUrl);
+          const peliculaDetails = await response3.json();
+          setTituloUltimaFavorita(peliculaDetails.title);
+    
+          // Llamada a la API de TMDB para obtener películas similares
+          const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${peliculaId}?api_key=5ac996f54892396a30e1c2b8dbf5b6ba&language=en-US&append_to_response=credits`;
+
+          const response2 = await fetch(movieDetailsUrl);
+          const movieDetails = await response2.json();
+          
+          // Obtener director
+          const director = movieDetails.credits.crew.find(member => member.job === 'Director');
+          
+          // Obtener actores principales (por ejemplo, los primeros 2 actores)
+          const mainActors = movieDetails.credits.cast.slice(0, 2);
+          
+          let actorMovies = [];
+          for (const actor of mainActors) {
+            const actorMoviesUrl = `https://api.themoviedb.org/3/discover/movie?api_key=5ac996f54892396a30e1c2b8dbf5b6ba&language=en-US&with_cast=${actor.id}&sort_by=popularity.desc&page=1`;
+            const actorMoviesResponse = await fetch(actorMoviesUrl);
+            const actorMoviesData = await actorMoviesResponse.json();
+            actorMovies = actorMovies.concat(actorMoviesData.results);
+          }
+          
+          const directorMoviesUrl = `https://api.themoviedb.org/3/discover/movie?api_key=5ac996f54892396a30e1c2b8dbf5b6ba&language=en-US&with_crew=${director.id}&sort_by=popularity.desc&page=1`;
+          const directorMoviesResponse = await fetch(directorMoviesUrl);
+          const directorMovies = await directorMoviesResponse.json();
+          
+          let combinedResults = [...actorMovies, ...directorMovies.results];
+          
+          // Filtrar duplicados
+          combinedResults = combinedResults.filter((movie, index, self) =>
+            index === self.findIndex((m) => m.id === movie.id)
+          );
+          combinedResults = combinedResults.filter(movie => movie.id !== peliculaId);
+          setFavSimilares(combinedResults);
+        } catch (error) {
+          console.error('Error fetching data:', error);
+        }
+      };
+    
+      if (nom_usuario) {
+        fetchUltimaFavorita();
+      }
+    }, [nom_usuario]);
+
+    useEffect(() => {
+      const fetchUltimaFavoritaGenero = async () => {
+        try {
+          // Llamada al endpoint de tu backend para obtener la última película favorita
+          const response = await fetch(`http://localhost:8080/user/ultimaFavorita/${nom_usuario}`);
+          if (!response.ok) {
+            throw new Error('Error fetching ultimaFavorita');
+          }
+          const data = await response.json();
+          const peliculaId = data.ultimaFavorita;
+    
+          // Obtener detalles de la película
+          const peliculaDetailsUrl = `https://api.themoviedb.org/3/movie/${peliculaId}?api_key=5ac996f54892396a30e1c2b8dbf5b6ba&language=en-US&append_to_response=credits`;
+          const response2 = await fetch(peliculaDetailsUrl);
+          const peliculaDetails = await response2.json();
+    
+          // Obtener géneros de la película
+          const genreIds = peliculaDetails.genres.slice(0, 2).map(genre => genre.id).join(',');
+    
+          // Obtener actores principales
+          const mainActors = peliculaDetails.credits.cast.slice(0, 2).map(actor => actor.id);
+    
+          // Buscar películas que coincidan en todos los géneros pero no en tendencia
+          const genreMoviesUrl = `https://api.themoviedb.org/3/discover/movie?api_key=5ac996f54892396a30e1c2b8dbf5b6ba&language=en-US&with_genres=${genreIds}&sort_by=vote_average.desc&vote_count.gte=100&page=1`;
+          const genreMoviesResponse = await fetch(genreMoviesUrl);
+          const genreMoviesData = await genreMoviesResponse.json();
+    
+          // Obtener detalles de cada película para filtrar por actores
+          const filteredMovies = [];
+          for (const movie of genreMoviesData.results) {
+            const movieDetailsUrl = `https://api.themoviedb.org/3/movie/${movie.id}?api_key=5ac996f54892396a30e1c2b8dbf5b6ba&language=en-US&append_to_response=credits`;
+            const movieDetailsResponse = await fetch(movieDetailsUrl);
+            const movieDetails = await movieDetailsResponse.json();
+    
+            const hasSameActors = movieDetails.credits.cast.some(actor => mainActors.includes(actor.id));
+            if (!hasSameActors) {
+              filteredMovies.push(movie);
+            }
+          }
+    
+          setFavSimilaresGenero(filteredMovies);
+        } catch (error) {
+          console.error('Error fetching peliculas similares de género:', error);
+        }
+      };
+    
+      if (nom_usuario) {
+        fetchUltimaFavoritaGenero();
+      }
+    }, [nom_usuario]);
+
+    useEffect(() => {
+      const fetchPlataformaId = async () => {
+        try {
+          const response = await fetch(`http://localhost:8080/user/plataformas/${nom_usuario}`);
+          if (!response.ok) {
+            throw new Error('Error en la solicitud');
+          }
+  
+          const plataformasIds = await response.json();
+
+          if (plataformasIds.plataformas.length > 0) {
+            // Selecciona un ID de plataforma al azar
+            const randomId = plataformasIds.plataformas[Math.floor(Math.random() * plataformasIds.plataformas.length)];
+
+            // Mapeo de IDs a los IDs correspondientes de TMDB
+            const idMapping = {
+              1: 337,
+              2: 619,
+              3: 531,
+              4: 8,
+              5: 119,
+              6: 384,
+              7: 350
+            };
+  
+            // Convierte el ID seleccionado al ID de TMDB correspondiente
+            const tmdbId = idMapping[randomId];
+            console.log("ID DE PLATAFORMA: " + tmdbId);
+            setTmdbId(tmdbId);
+          }
+        } catch (error) {
+          console.error('Error fetching platform IDs:', error);
+        }
+      };
+  
+      fetchPlataformaId();
+    }, [nom_usuario]);
 
     useEffect(() => {
       const fetchData = async () => {
         if (!tipoSeleccionado && !generoSeleccionado && !plataformaSeleccionada && !añoSeleccionado) {
+          console.log("PELICULAS FILTRO VACIADO");
           setPeliculasFiltro([]);
           return;
         }
-  
+    
         const baseUrl = 'https://api.themoviedb.org/3/';
         let endpoint = '';
         if (tipoSeleccionado) {
@@ -45,45 +198,46 @@ const Usuario = () => {
         } else {
           endpoint = 'discover/movie';  // Por defecto buscará películas si no hay tipo seleccionado
         }
-  
+    
         let genreFilter = '';
         if (generoSeleccionado) {
           genreFilter = `&with_genres=${generoSeleccionado}`;
-          if (endpoint==="discover/movie"){
-            if (generoSeleccionado === "10759"){
-              genreFilter =`&with_genres=28`;;
+          if (endpoint === "discover/movie") {
+            if (generoSeleccionado === "10759") {
+              genreFilter = `&with_genres=28`;
             }
-            if (generoSeleccionado === "10765"){
-              genreFilter = `&with_genres=878`;;
+            if (generoSeleccionado === "10765") {
+              genreFilter = `&with_genres=878`;
             }
-            if (generoSeleccionado === "10768"){
-              genreFilter = `&with_genres=10752`;;
+            if (generoSeleccionado === "10768") {
+              genreFilter = `&with_genres=10752`;
             }
           }
         }
-
+    
         let providerFilter = '';
         let watchRegion = '&watch_region=AR';
-        if (plataformaSeleccionada){
-          providerFilter = `&with_watch_providers=${plataformaSeleccionada}`; 
+        if (plataformaSeleccionada === "384" && endpoint === 'discover/movie'){
+          watchRegion = ''
         }
-
-        
+        if (plataformaSeleccionada) {
+          providerFilter = `&with_watch_providers=${plataformaSeleccionada}`;
+        }
+    
         let añoDesde = '';
         let añoHasta = '';
-        let añoFilter = ''; 
-        if (añoSeleccionado){
+        let añoFilter = '';
+        if (añoSeleccionado) {
           const valoresSeparados = añoSeleccionado.split(' ');
           añoDesde = valoresSeparados[0];
           añoHasta = valoresSeparados[1];
-          if (endpoint==="discover/movie"){
+          if (endpoint === "discover/movie") {
             añoFilter = `&release_date.gte=${añoDesde}&release_date.lte=${añoHasta}`;
-          } else{
+          } else {
             añoFilter = `&first_air_date.gte=${añoDesde}&first_air_date.lte=${añoHasta}`;
           }
         }
-
-  
+    
         let allResults = [];
         const options = {
           method: 'GET',
@@ -92,7 +246,7 @@ const Usuario = () => {
             Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YWM5OTZmNTQ4OTIzOTZhMzBlMWMyYjhkYmY1YjZiYSIsInN1YiI6IjYyODA2N2NkY2VlNDgxMDA2NjYyMGJlYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.e2pzE4WfInKObTQxR2DG5-GEZUJmwCyW6NCErHkdo2g'
           }
         };
-  
+    
         for (let page = 1; page <= 5; page++) {
           const url = `${baseUrl}${endpoint}?language=en-US&page=${page}&region=US&include_adult=false&vote_count.gte=100&vote_average.gte=7${genreFilter}${providerFilter}${añoFilter}${watchRegion}`;
           try {
@@ -107,10 +261,17 @@ const Usuario = () => {
             console.error('Error fetching data:', error);
           }
         }
-  
-        setPeliculasFiltro(allResults);
+    
+        // Eliminar duplicados utilizando un Set para los IDs
+        const uniqueResults = Array.from(new Set(allResults.map(movie => movie.id)))
+          .map(id => {
+            return allResults.find(movie => movie.id === id);
+          });
+    
+        console.log(uniqueResults);
+        setPeliculasFiltro(uniqueResults);
       };
-  
+    
       fetchData();
     }, [tipoSeleccionado, generoSeleccionado, plataformaSeleccionada, añoSeleccionado]);
 
@@ -152,45 +313,6 @@ const Usuario = () => {
   
       fetchData();
     }, [searchText]);
-
-    useEffect(() => {
-      // Función para obtener el ID de TMDB
-      const fetchPlataformaId = async () => {
-        try {
-          const response = await fetch(`http://localhost:8080/user/plataformas/${nom_usuario}`);
-          if (!response.ok) {
-            throw new Error('Error en la solicitud');
-          }
-  
-          const plataformasIds = await response.json();
-
-          if (plataformasIds.plataformas.length > 0) {
-            // Selecciona un ID de plataforma al azar
-            const randomId = plataformasIds.plataformas[Math.floor(Math.random() * plataformasIds.plataformas.length)];
-
-            // Mapeo de IDs a los IDs correspondientes de TMDB
-            const idMapping = {
-              1: 337,
-              2: 619,
-              3: 531,
-              4: 8,
-              5: 119,
-              6: 384,
-              7: 350
-            };
-  
-            // Convierte el ID seleccionado al ID de TMDB correspondiente
-            const tmdbId = idMapping[randomId];
-            console.log("ID DE PLATAFORMA: " + tmdbId);
-            setTmdbId(tmdbId);
-          }
-        } catch (error) {
-          console.error('Error fetching platform IDs:', error);
-        }
-      };
-  
-      fetchPlataformaId();
-    }, [nom_usuario]);
     
   
     const handleSelectChange = (setSeleccionado, setBorderColor) => (event) => {
@@ -211,8 +333,11 @@ const Usuario = () => {
     useEffect(() => {
       const fetchPopularMovies = async () => {
         if (!tmdbId) return;
-  
-        const url = `https://api.themoviedb.org/3/discover/movie?with_watch_providers=${tmdbId}&watch_region=AR&language=en-US&sort_by=popularity.desc`;
+        let watchRegion = '&watch_region=AR';
+        if (tmdbId === 384){
+          watchRegion = ''
+        }
+        const url = `https://api.themoviedb.org/3/discover/movie?with_watch_providers=${tmdbId}${watchRegion}&language=en-US&sort_by=popularity.desc`;
         const options = {
           method: 'GET',
           headers: {
@@ -254,7 +379,7 @@ const Usuario = () => {
     };
 
     const fetchTerrorMovies = async () => {
-      const url = 'https://api.themoviedb.org/3/discover/movie?with_genres=27&sort_by=popularity.desc&language=en-US&page=2';
+      const url = 'https://api.themoviedb.org/3/discover/movie?with_genres=27&sort_by=popularity.desc&language=en-US&page=4';
       const options = {
         method: 'GET',
         headers: {
@@ -294,6 +419,22 @@ const Usuario = () => {
         containerRef3.current.scrollBy({ left: 600, behavior: 'smooth' });
       }
     };
+
+    const scrollContainer4 = (direction) => {
+      if (direction === 'left') {
+        containerRef4.current.scrollBy({ left: -600, behavior: 'smooth' });
+      } else {
+        containerRef4.current.scrollBy({ left: 600, behavior: 'smooth' });
+      }
+    };
+
+    const scrollContainer5 = (direction) => {
+      if (direction === 'left') {
+        containerRef5.current.scrollBy({ left: -600, behavior: 'smooth' });
+      } else {
+        containerRef5.current.scrollBy({ left: 600, behavior: 'smooth' });
+      }
+    };
   
     useEffect(() => {
       fetchSciFiMovies();
@@ -329,7 +470,7 @@ const Usuario = () => {
   <option value="Serie">Serie</option>
 </select>
 
-            <select className="filter-select" style={{ borderColor: plataformaBorderColor }} onChange={handleSelectChange(setPlataformaSeleccionada, setPlataformaBorderColor)}>
+            <select className="filter-select plataforma" style={{ borderColor: plataformaBorderColor }} onChange={handleSelectChange(setPlataformaSeleccionada, setPlataformaBorderColor)}>
                 <option value="">Plataforma</option>
                 <option value="8">Netflix</option>
                 <option value="337">Disney+</option>
@@ -455,6 +596,62 @@ const Usuario = () => {
  
 </div>
 
+{favSimilares.length > 0 && (
+  <div className="container-m">
+    <div className='container-tm'>
+      <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 9.025L0 19V0L19 9.025Z" fill="#E86405"/>
+      </svg>
+      <h1 className='popmovies'>De los actores/director de {tituloUltimaFavorita}</h1>
+    </div>
+    <div className="movies-wrapper">
+      <button className="nav-button left" onClick={() => scrollContainer4('left')}>{'<'}</button>
+      <div className="movies-container" ref={containerRef4}>
+        {favSimilares.map((movie) => (
+          <Link to={`/movie/${movie.id}`} key={movie.id}>
+            <div className="movie">
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+                className="movie-poster"
+              />
+            </div>
+          </Link>
+        ))}
+      </div>
+      <button className="nav-button right" onClick={() => scrollContainer4('right')}>{'>'}</button>
+    </div>
+  </div>
+)}
+
+{favSimilaresGenero.length > 0 && (
+  <div className="container-m">
+    <div className='container-tm'>
+      <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M19 9.025L0 19V0L19 9.025Z" fill="#E86405"/>
+      </svg>
+      <h1 className='popmovies'>Del género de {tituloUltimaFavorita}</h1>
+    </div>
+    <div className="movies-wrapper">
+      <button className="nav-button left" onClick={() => scrollContainer5('left')}>{'<'}</button>
+      <div className="movies-container" ref={containerRef5}>
+        {favSimilaresGenero.map((movie) => (
+          <Link to={`/movie/${movie.id}`} key={movie.id}>
+            <div className="movie">
+              <img
+                src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+                alt={movie.title}
+                className="movie-poster"
+              />
+            </div>
+          </Link>
+        ))}
+      </div>
+      <button className="nav-button right" onClick={() => scrollContainer5('right')}>{'>'}</button>
+    </div>
+  </div>
+)}
+
 
 <div className="container-m">
  <div className='container-tm'>
@@ -511,8 +708,6 @@ const Usuario = () => {
  )}
        </>
       )}
-
-
 
     </main>
     </>

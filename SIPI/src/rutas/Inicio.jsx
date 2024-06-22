@@ -30,10 +30,11 @@ const Inicio = () => {
     useEffect(() => {
       const fetchData = async () => {
         if (!tipoSeleccionado && !generoSeleccionado && !plataformaSeleccionada && !añoSeleccionado) {
+          console.log("PELICULAS FILTRO VACIADO");
           setPeliculasFiltro([]);
           return;
         }
-  
+    
         const baseUrl = 'https://api.themoviedb.org/3/';
         let endpoint = '';
         if (tipoSeleccionado) {
@@ -41,45 +42,46 @@ const Inicio = () => {
         } else {
           endpoint = 'discover/movie';  // Por defecto buscará películas si no hay tipo seleccionado
         }
-  
+    
         let genreFilter = '';
         if (generoSeleccionado) {
           genreFilter = `&with_genres=${generoSeleccionado}`;
-          if (endpoint==="discover/movie"){
-            if (generoSeleccionado === "10759"){
-              genreFilter =`&with_genres=28`;;
+          if (endpoint === "discover/movie") {
+            if (generoSeleccionado === "10759") {
+              genreFilter = `&with_genres=28`;
             }
-            if (generoSeleccionado === "10765"){
-              genreFilter = `&with_genres=878`;;
+            if (generoSeleccionado === "10765") {
+              genreFilter = `&with_genres=878`;
             }
-            if (generoSeleccionado === "10768"){
-              genreFilter = `&with_genres=10752`;;
+            if (generoSeleccionado === "10768") {
+              genreFilter = `&with_genres=10752`;
             }
           }
         }
-
+    
         let providerFilter = '';
         let watchRegion = '&watch_region=AR';
-        if (plataformaSeleccionada){
-          providerFilter = `&with_watch_providers=${plataformaSeleccionada}`; 
+        if (plataformaSeleccionada === "384" && endpoint === 'discover/movie'){
+          watchRegion = ''
         }
-
-        
+        if (plataformaSeleccionada) {
+          providerFilter = `&with_watch_providers=${plataformaSeleccionada}`;
+        }
+    
         let añoDesde = '';
         let añoHasta = '';
-        let añoFilter = ''; 
-        if (añoSeleccionado){
+        let añoFilter = '';
+        if (añoSeleccionado) {
           const valoresSeparados = añoSeleccionado.split(' ');
           añoDesde = valoresSeparados[0];
           añoHasta = valoresSeparados[1];
-          if (endpoint==="discover/movie"){
+          if (endpoint === "discover/movie") {
             añoFilter = `&release_date.gte=${añoDesde}&release_date.lte=${añoHasta}`;
-          } else{
+          } else {
             añoFilter = `&first_air_date.gte=${añoDesde}&first_air_date.lte=${añoHasta}`;
           }
         }
-
-  
+    
         let allResults = [];
         const options = {
           method: 'GET',
@@ -88,7 +90,7 @@ const Inicio = () => {
             Authorization: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI1YWM5OTZmNTQ4OTIzOTZhMzBlMWMyYjhkYmY1YjZiYSIsInN1YiI6IjYyODA2N2NkY2VlNDgxMDA2NjYyMGJlYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.e2pzE4WfInKObTQxR2DG5-GEZUJmwCyW6NCErHkdo2g'
           }
         };
-  
+    
         for (let page = 1; page <= 5; page++) {
           const url = `${baseUrl}${endpoint}?language=en-US&page=${page}&region=US&include_adult=false&vote_count.gte=100&vote_average.gte=7${genreFilter}${providerFilter}${añoFilter}${watchRegion}`;
           try {
@@ -103,10 +105,17 @@ const Inicio = () => {
             console.error('Error fetching data:', error);
           }
         }
-  
-        setPeliculasFiltro(allResults);
+    
+        // Eliminar duplicados utilizando un Set para los IDs
+        const uniqueResults = Array.from(new Set(allResults.map(movie => movie.id)))
+          .map(id => {
+            return allResults.find(movie => movie.id === id);
+          });
+    
+        console.log(uniqueResults);
+        setPeliculasFiltro(uniqueResults);
       };
-  
+    
       fetchData();
     }, [tipoSeleccionado, generoSeleccionado, plataformaSeleccionada, añoSeleccionado]);
 
@@ -204,7 +213,7 @@ const Inicio = () => {
     };
 
     const fetchTerrorMovies = async () => {
-      const url = 'https://api.themoviedb.org/3/discover/movie?with_genres=27&sort_by=popularity.desc&language=en-US&page=2';
+      const url = 'https://api.themoviedb.org/3/discover/movie?with_genres=27&sort_by=popularity.desc&language=en-US&page=4';
       const options = {
         method: 'GET',
         headers: {
@@ -280,7 +289,7 @@ const Inicio = () => {
   <option value="Serie">Serie</option>
 </select>
 
-            <select className="filter-select" style={{ borderColor: plataformaBorderColor }} onChange={handleSelectChange(setPlataformaSeleccionada, setPlataformaBorderColor)}>
+            <select className="filter-select plataforma" style={{ borderColor: plataformaBorderColor }} onChange={handleSelectChange(setPlataformaSeleccionada, setPlataformaBorderColor)}>
                 <option value="">Plataforma</option>
                 <option value="8">Netflix</option>
                 <option value="337">Disney+</option>

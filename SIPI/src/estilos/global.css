@@ -107,7 +107,7 @@ body{
 .filter-container {
     display: flex;
     align-items: center;
-    padding: 10px;
+    padding: 20px;
     gap: 50px;
     margin-top: 30px;
     padding-left: 80px;
@@ -125,28 +125,49 @@ body{
     background-color: transparent;
     border: 1px solid #E86405;
     color: #FFFFFF;
-    padding: 5px;
-    border-radius: 5px;
+    padding: 10px 30px 10px 10px; /* Ajuste de padding para acomodar la flecha */
+    border-radius: 10px;
     font-family: "Poppins", sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    outline: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 4 5" width="4" height="5"><path fill="%23fff" d="M2 0L0 2h4z"/></svg>'); 
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 10px 10px; /* Ajustar tamaño de la flecha */
+}
+.filter-select.plataforma {
+    width: 140px; /* Ajusta este valor según sea necesario */
+}
+.filter-select:hover {
+    background-color: #E86405;
+    color: #FFFFFF;
+    outline: none;
 }
 
-.filter-select:focus{
+
+.filter-select option {
+    color: black;
+    font-weight: 600;
+    background-color:  #e49054;
     outline: none;
-    border-color: inherit
 }
 
 .search-container {
     display: flex;
     align-items: center;
     border: 1px solid #E86405;
-    border-radius: 5px;
+    border-radius: 10px;
     overflow: hidden;
-    transition: width 0.3s ease;
+    transition: width 0.3s ease, border-color 0.3s ease;
     width: 30px; /* Tamaño inicial del botón */
 }
 
 .search-container.expanded {
     width: 200px; /* Tamaño al expandirse */
+    border-color: #FFFFFF;
 }
 
 .search-input {
@@ -163,6 +184,7 @@ body{
     border: none;
     cursor: pointer;
     padding: 5px;
+    transition: transform 0.3s ease;
 }
 
 .search-button img {
@@ -170,15 +192,15 @@ body{
     height: 20px;
 }
 
-.selectdiv{
+.search-button:hover {
+    transform: scale(1.1);
+}
+
+.selectdiv {
     display: flex;
     gap: 60px;
 }
 
-.filter-select option{
-    color: black;
-    font-weight: 600;
-}
 
 @media screen and (max-width: 1195px){
     .filter-container {
@@ -404,4 +426,8 @@ body{
 
   .enviarbutton.login{
     margin-top: 30px;
+  }
+
+  .sinpeliculas{
+    margin-left: 100px;
   }
