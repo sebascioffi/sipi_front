@@ -21,7 +21,7 @@ const Registro = () => {
   const [formData, setFormData] = useState({
     usuario: '',
     contraseña: '',
-    preguntaSeg: '',
+    preguntaSeg: 'amigoInfancia',
     respuestaSeg: '',
   });
 
@@ -116,15 +116,15 @@ const handleSubmit = async (event) => {
       <div>
   <label>Pregunta de seguridad</label>
   <select
-    name="preguntaSeg"
-    value={formData.preguntaSeg}
-    onChange={handleInputChange}
-  >
-    <option value="amigoInfancia">Nombre de mi mejor amigo/a de la infancia</option>
-    <option value="primeraMascota">Nombre de mi primera mascota</option>
-    <option value="solteraMadre">Nombre de soltera de mi madre</option>
-    {/* Añade más opciones aquí con values únicos */}
-  </select>
+  name="preguntaSeg"
+  value={formData.preguntaSeg}
+  onChange={handleInputChange}
+>
+  <option value="amigoInfancia">Nombre de mi mejor amigo/a de la infancia</option>
+  <option value="primeraMascota">Nombre de mi primera mascota</option>
+  <option value="solteraMadre">Nombre de soltera de mi madre</option>
+</select>
+
   <input
     type="text"
     name="respuestaSeg"
