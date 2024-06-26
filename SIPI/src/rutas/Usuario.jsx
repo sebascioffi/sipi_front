@@ -4,6 +4,8 @@ import { Link, useParams } from 'react-router-dom';
 import lupa from "../imagenes/lupa.png"
 import user from '../imagenes/user.png'; 
 import logout from '../imagenes/logout.png'; 
+import movietracker from "../imagenes/movietrackerlogo2.png"
+
 
 const Usuario = () => {
 
@@ -446,6 +448,13 @@ const Usuario = () => {
     <>
     <header className='header usuario'>
         <div className='menu'>
+        <Link to={`/${nom_usuario}`} className='movietrackerbtnusuario'>
+            <img
+              src={movietracker}
+              width={"230px"}
+              className='movietracker'
+            />
+            </Link>
                 <Link to={`/perfil/${nom_usuario}`} style={{ display: 'flex', alignItems: 'center' }}>
             <span style={{color: "#ffffff"}}>{nom_usuario}</span>
             <img src={user} alt="User Icon" style={{ width: '39px', height: '39px' }} />
@@ -529,7 +538,7 @@ const Usuario = () => {
       {searchResults.length > 0 ? (
       <div className="movies-container-filtro">
         {searchResults.map((movie) => (
-          <Link to={`/movie/${movie.id}`} key={movie.id}>
+          <Link to={`/perfil/${nom_usuario}/movie/${movie.id}`} key={movie.id}>
           <div className="movie">
             <img
               src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -546,7 +555,7 @@ const Usuario = () => {
           <>
    <div className="movies-container-filtro">
    {peliculasFiltro.map((movie) => (
-     <Link to={`/movie/${movie.id}`} key={movie.id}>
+     <Link to={`/perfil/${nom_usuario}/movie/${movie.id}`} key={movie.id}>
      <div className="movie">
        <img
          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -580,7 +589,7 @@ const Usuario = () => {
    <button className="nav-button left" onClick={() => scrollContainer1('left')}>{'<'}</button>
    <div className="movies-container" ref={containerRef1}>
    {movies.map((movie) => (
-     <Link to={`/movie/${movie.id}`} key={movie.id}>
+     <Link to={`/perfil/${nom_usuario}/movie/${movie.id}`} key={movie.id}>
      <div className="movie">
        <img
          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -608,7 +617,7 @@ const Usuario = () => {
       <button className="nav-button left" onClick={() => scrollContainer4('left')}>{'<'}</button>
       <div className="movies-container" ref={containerRef4}>
         {favSimilares.map((movie) => (
-          <Link to={`/movie/${movie.id}`} key={movie.id}>
+          <Link to={`/perfil/${nom_usuario}/movie/${movie.id}`} key={movie.id}>
             <div className="movie">
               <img
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -636,7 +645,7 @@ const Usuario = () => {
       <button className="nav-button left" onClick={() => scrollContainer5('left')}>{'<'}</button>
       <div className="movies-container" ref={containerRef5}>
         {favSimilaresGenero.map((movie) => (
-          <Link to={`/movie/${movie.id}`} key={movie.id}>
+          <Link to={`/perfil/${nom_usuario}/movie/${movie.id}`} key={movie.id}>
             <div className="movie">
               <img
                 src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -664,7 +673,7 @@ const Usuario = () => {
    <button className="nav-button left" onClick={() => scrollContainer2('left')}>{'<'}</button>
    <div className="movies-container" ref={containerRef2}>
    {sciFi.map((movie) => (
-     <Link to={`/movie/${movie.id}`} key={movie.id}>
+     <Link to={`/perfil/${nom_usuario}/movie/${movie.id}`} key={movie.id}>
      <div className="movie">
        <img
          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -690,7 +699,7 @@ const Usuario = () => {
    <button className="nav-button left" onClick={() => scrollContainer3('left')}>{'<'}</button>
    <div className="movies-container" ref={containerRef3}>
    {terror.map((movie) => (
-     <Link to={`/movie/${movie.id}`} key={movie.id}>
+     <Link to={`/perfil/${nom_usuario}/movie/${movie.id}`} key={movie.id}>
      <div className="movie">
        <img
          src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

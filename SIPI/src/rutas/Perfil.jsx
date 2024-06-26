@@ -3,6 +3,8 @@ import "../estilos/global.css"
 import { Link, useParams } from 'react-router-dom';
 import home from '../imagenes/homeusuario.png'; 
 import logout from '../imagenes/logout.png'; 
+import movietracker from "../imagenes/movietrackerlogo2.png"
+
 
 const Perfil = () => {
 
@@ -104,6 +106,13 @@ const Perfil = () => {
     <>
     <header className='header usuario'>
         <div className='menu'>
+        <Link to={`/${nom_usuario}`} className='movietrackerbtnusuario'>
+            <img
+              src={movietracker}
+              width={"230px"}
+              className='movietracker'
+            />
+            </Link>
             <Link to={`/${nom_usuario}`} style={{ display: 'flex', alignItems: 'center' }}>
             <img src={home} alt="User Icon" style={{ width: '39px', height: '39px' }} />
             </Link>
@@ -128,7 +137,7 @@ const Perfil = () => {
     <p className='sinpeliculas'>No has añadido favoritas</p>
   ) : (
     favoritasResults.map((movie) => (
-      <Link to={`/movie/${movie.id}`} key={movie.id}>
+      <Link to={`/perfil/${nom_usuario}/movie/${movie.id}`} key={movie.id}>
         <div className="movie">
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
@@ -158,7 +167,7 @@ const Perfil = () => {
     <p className='sinpeliculas'>No has añadido pendientes</p>
   ) : (
     pendientesResults.map((movie) => (
-      <Link to={`/movie/${movie.id}`} key={movie.id}>
+      <Link to={`/perfil/${nom_usuario}/movie/${movie.id}`} key={movie.id}>
         <div className="movie">
           <img
             src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}

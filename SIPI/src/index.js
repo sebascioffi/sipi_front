@@ -7,6 +7,7 @@ import Registro from './rutas/Registro';
 import Login from './rutas/Login';
 import Usuario from './rutas/Usuario';
 import Perfil from './rutas/Perfil';
+import MovieUsuario from './rutas/MovieUsuario';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -19,6 +20,7 @@ root.render(
             <Route path='/registro' element={<Registro />} />
             <Route path='/:nom_usuario' element={<Usuario />} />
             <Route path='/perfil/:nom_usuario' element={<Perfil />} />
+            <Route path='/perfil/:nom_usuario/movie/:id' element={<MovieUsuario />} />
         </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom"
 import "../estilos/global.css"
 import { useNavigate } from 'react-router-dom';
+import movietracker from "../imagenes/movietrackerlogo2.png"
 
 const Registro = () => {
   const navigate = useNavigate();
@@ -82,6 +83,13 @@ const handleSubmit = async (event) => {
     <>
     <header className='header inicio'>
         <div className='menu'>
+        <Link to={"/"} className='movietrackerbtn'>
+            <img
+              src={movietracker}
+              width={"230px"}
+              className='movietracker'
+            />
+            </Link>
             <Link to={"/"} className="btn btn-registrate">Inicio</Link>
             <Link to={"/login"} className="btn btn-inicia-sesion">Iniciar Sesión</Link>
         </div>

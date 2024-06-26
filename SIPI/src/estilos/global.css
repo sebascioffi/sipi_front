@@ -16,7 +16,7 @@ body{
     background-size:cover;
 }
 
-.menu{
+.menu {
     height: 60px;
     display: flex;
     flex-direction: row;
@@ -25,8 +25,13 @@ body{
     padding-right: 20px;
     padding-top: 10px;
     font-style: italic;
-}
-
+  }
+  .movietrackerbtn {
+    margin-right: auto;
+    margin-left: 50px;
+    margin-top: 30px;
+    margin-bottom: 10px;
+  }
 .btn{
     padding: 10px 20px;
     text-align: center;
@@ -430,4 +435,180 @@ body{
 
   .sinpeliculas{
     margin-left: 100px;
+  }
+
+  .movietrackerbtnusuario{
+    margin-right: auto;
+    margin-left: 50px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+  }
+
+  .headermovie{
+    background-image: url('../imagenes/fondopeliculas.jpg');
+    background-size:contain;
+    height: 130px;
+    color: #FFFFFF;
+}
+
+.movie-details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    color: #ffffff;
+  }
+  
+  .movie-info {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 1000px;
+    margin-top: 20px;
+    background-color: transparent;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .movie-posterpag {
+    width: 280px;
+    border-radius: 10px;
+  }
+  
+  .movie-data {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .movie-data h1 {
+    margin: 0;
+    font-size: 24px;
+  }
+  
+  .movie-data p {
+    margin: 0;
+    font-size: 16px;
+  }
+  
+  .movie-data p strong {
+    font-weight: bold;
+  }
+
+  .providers {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: start;
+    margin-top: 20px;
+  }
+  
+  .provider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .provider img {
+    width: 92px;
+    border-radius: 10px;
+  }
+  
+  .provider p {
+    margin-top: 10px;
+    font-size: 14px;
+  }
+
+  .title-and-buttons {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .buttons {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .btn-favorite, .btn-pending {
+    background-color: #E86405;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .btn-favorite:hover, .btn-pending:hover {
+    background-color: #FF914D;
+  }
+  
+  .btn-favorite{
+    margin-left: 50px;
+    font-weight: 600;
+  }
+
+  .btn-pending{
+    font-weight: 600;
+  }
+
+  .sinopsispel{
+        padding-top: 10px;
+        padding-bottom: 10px;
+  }
+
+  .disponibleen{
+    margin-top: 20px;
+  }
+
+  .btn-favorite-removed,
+.btn-pending-removed {
+    background-color: #c40909;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s ease;/* Color de fondo cuando se elimina de favoritas o pendientes */
+}
+
+.btn-favorite-removed:hover,
+.btn-pending-removed:hover {
+  background-color: rgb(204, 52, 67); /* Color de fondo cuando se elimina de favoritas o pendientes al pasar el mouse */
+}
+
+.btn-favorite-removed{
+    margin-left: 50px;
+    font-weight: 600;
+}
+
+.btn-pending-removed{
+    font-weight: 600;
+}
+
+.main-actors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Espacio entre los actores */
+  }
+  
+  .actor {
+    flex: 0 0 calc(25% - 20px); /* Para mostrar cuatro actores por fila, ajustable según necesidad */
+    text-align: center;
+  }
+  
+  .actor img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px; /* Borde redondeado para las imágenes */
+  }
+
+  .nar{
+    color: #E86405;
   }

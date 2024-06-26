@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import "../estilos/global.css"
 import { Link } from "react-router-dom"
 import lupa from "../imagenes/lupa.png"
+import movietracker from "../imagenes/movietrackerlogo2.png"
 
 const Inicio = () => {
 
@@ -265,6 +266,13 @@ const Inicio = () => {
     <>
     <header className='header'>
         <div className='menu'>
+            <Link to={"/"} className='movietrackerbtn'>
+            <img
+              src={movietracker}
+              width={"230px"}
+              className='movietracker'
+            />
+            </Link>
             <Link to={"/registro"} className="btn btn-registrate">Regístrate</Link>
             <Link to={"/login"} className="btn btn-inicia-sesion">Inicia Sesión</Link>
         </div>
