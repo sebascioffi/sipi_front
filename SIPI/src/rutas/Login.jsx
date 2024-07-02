@@ -40,6 +40,7 @@ const handleSubmit = async (event) => {
 
       const responseData = await response.json();
       console.log('Inicio de sesión exitoso:', responseData);
+      localStorage.setItem('usuario', usuario);
       navigate(`/${usuario}`);
 
   } catch (error) {

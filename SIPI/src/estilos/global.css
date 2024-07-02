@@ -612,3 +612,103 @@ body{
   .nar{
     color: #E86405;
   }
+
+  .grupo {
+    flex: 0 0 auto;
+    width: 100px; /* Hacer la imagen más pequeña */
+    text-align: center; /* Centrar el texto */
+    transition: background-color 0.3s ease; /* Efecto de transición suave para el cambio de color */
+    padding: 10px; /* Añadir relleno para el efecto de fondo */
+    border-radius: 10px; /* Añadir bordes redondeados para que se vea bien con el cambio de color */
+  }
+  
+  .grupo:hover {
+    background-color: #6babdbb2; /* Cambiar el color de fondo al hacer hover */
+  }
+  
+  .grupo-poster {
+    width: 100%;
+    border-radius: 10px;
+    transition: box-shadow 0.3s ease; 
+  }
+  
+  .grupo-poster:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Sombra para el hover */
+  }
+  
+  .grupo p {
+    margin-top: 10px; /* Espacio entre la imagen y el texto */
+    color: #E86405; /* Color del texto */
+    transition: color 0.3s ease; /* Efecto de transición suave para el cambio de color del texto */
+  }
+  
+  .grupo:hover p {
+    color: #fff; /* Cambiar el color del texto al hacer hover */
+  }
+  
+
+  .container-grupo {
+    display: flex;
+    flex-direction: row;
+    align-self: flex-start;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .gruposh1 {
+    margin: 0;
+    color: #FFFFFF;
+    font-size: 1.4em;
+    margin-left: 10px;
+  }
+  
+  .btn-group {
+    margin-left: 10px;
+    padding: 10px 20px; /* Hacer los botones más grandes */
+    background-color: #6babdbb2;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 25px; /* Más redondeado */
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para darle profundidad */
+    font-weight: bold;
+  }
+
+  .btn-group.crear{
+    margin-left: 20px;
+    margin-right: 5px;
+  }
+  
+  .btn-group:hover {
+    background-color: #5D9DCE;
+    transform: translateY(-2px); /* Levanta el botón al hacer hover */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Incrementa la sombra al hacer hover */
+  }
+  
+  .btn-group:active {
+    background-color: #4A8BC8;
+    transform: translateY(0); /* Regresa a su lugar al hacer click */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Mantiene una sombra más pequeña al hacer click */
+  }
+  
+  .pusuario {
+    margin-top: 10px; /* Espacio entre la imagen y el texto */
+    color: #E86405;
+    font-size: 13px; /* Color del texto */
+    transition: color 0.3s ease;
+    font-weight: bold;
+  }
+  
+  .grupo:hover .pusuario {
+    color: #fff; /* Cambiar el color del texto al hacer hover */
+  }
+
+  .grupoheader{
+    height: 200px;
+  }
+
+  .adorno-grupo{
+    width: 80px;
+    margin: 0;
+  }
