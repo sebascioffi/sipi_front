@@ -150,12 +150,12 @@ const Perfil = () => {
 
     const buscarGrupo = async () => {
       const { value: nombreGrupo } = await Swal.fire({
-          title: 'Buscar Grupo',
+          title: 'Unirse a Grupo',
           input: 'text',
-          inputLabel: 'Nombre del grupo',
+          inputLabel: 'Ingrese el nombre del grupo.',
           inputPlaceholder: 'Ingrese el nombre del grupo',
           showCancelButton: true,
-          confirmButtonText: 'Buscar',
+          confirmButtonText: 'Unirse',
           cancelButtonText: 'Cancelar',
           inputValidator: (value) => {
               if (!value) {
