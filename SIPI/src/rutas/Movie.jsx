@@ -104,11 +104,11 @@ const Movie = () => {
   <button className='btn-pending' onClick={handleButtonClick}>Añadir a pendientes</button>
 </div>
         </div>
-        <p className="sinopsispel"><strong>Sinopsis:</strong> {movie.overview}</p>
-        <p><strong>Director:</strong> {movie.director}</p>
-        <p><strong>Géneros:</strong> {movie.genres && movie.genres.length > 0 ? movie.genres.map(genre => genre.name).join(', ') : 'No disponible'}</p>
-        <p><strong>Fecha de Estreno:</strong> {new Date(movie.release_date).toLocaleDateString()}</p>
-        <p><strong>País de Origen:</strong> {movie.production_countries && movie.production_countries.length > 0 ? movie.production_countries[0].name : 'No disponible'}</p>
+        <p className="sinopsispel"><strong className="sinopsis">Sinopsis:</strong> {movie.overview}</p>
+        <p><strong className="sinopsis">Director:</strong> {movie.director}</p>
+        <p><strong className="sinopsis">Géneros:</strong> {movie.genres && movie.genres.length > 0 ? movie.genres.map(genre => genre.name).join(', ') : 'No disponible'}</p>
+        <p><strong className="sinopsis">Fecha de Estreno:</strong> {new Date(movie.release_date).toLocaleDateString()}</p>
+        <p><strong className="sinopsis">País de Origen:</strong> {movie.production_countries && movie.production_countries.length > 0 ? movie.production_countries[0].name : 'No disponible'}</p>
         {movie.watchProviders && movie.watchProviders.length > 0 && (
           <>
             <h2 className="disponibleen">Disponible en:</h2>
