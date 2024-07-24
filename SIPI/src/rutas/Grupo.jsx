@@ -29,7 +29,7 @@ const Grupo = () => {
     useEffect(() => {
         const fetchUsuarios = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/grupos/usuario/${nombre_grupo}`);
+                const response = await fetch(`https://sipi-back.onrender.com/grupos/usuario/${nombre_grupo}`);
                 if (!response.ok) {
                     throw new Error('Error al obtener usuarios del grupo');
                 }
@@ -60,7 +60,7 @@ const Grupo = () => {
 
       const obtenerUltimaFavorita = async (usuario) => {
         try {
-          const response = await fetch(`http://localhost:8080/user/ultimaFavorita/${usuario}`);
+          const response = await fetch(`https://sipi-back.onrender.com/user/ultimaFavorita/${usuario}`);
           const data = await response.json();
           return data.ultimaFavorita;
         } catch (error) {

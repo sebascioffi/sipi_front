@@ -39,7 +39,7 @@ const GrupoUsuario = () => {
       useEffect(() => {
         const fetchFavoritas = async () => {
           try {
-            const response = await fetch(`http://localhost:8080/user/favoritas/${nom_usuario}`);
+            const response = await fetch(`https://sipi-back.onrender.com/user/favoritas/${nom_usuario}`);
             if (!response.ok) {
               throw new Error('Error fetching favoritas');
             }
@@ -73,7 +73,7 @@ const GrupoUsuario = () => {
       useEffect(() => {
         const fetchPendientes = async () => {
           try {
-            const response = await fetch(`http://localhost:8080/user/pendientes/${nom_usuario}`);
+            const response = await fetch(`https://sipi-back.onrender.com/user/pendientes/${nom_usuario}`);
             if (!response.ok) {
               throw new Error('Error fetching pendientes');
             }

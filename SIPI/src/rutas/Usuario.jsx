@@ -42,7 +42,7 @@ const Usuario = () => {
       const fetchUltimaFavorita = async () => {
         try {
           // Llamada al endpoint de tu backend para obtener la última película favorita
-          const response = await fetch(`http://localhost:8080/user/ultimaFavorita/${nom_usuario}`);
+          const response = await fetch(`https://sipi-back.onrender.com/user/ultimaFavorita/${nom_usuario}`);
           if (!response.ok) {
             throw new Error('Error fetching ultimaFavorita');
           }
@@ -100,7 +100,7 @@ const Usuario = () => {
       const fetchUltimaFavoritaGenero = async () => {
         try {
           // Llamada al endpoint de tu backend para obtener la última película favorita
-          const response = await fetch(`http://localhost:8080/user/ultimaFavorita/${nom_usuario}`);
+          const response = await fetch(`https://sipi-back.onrender.com/user/ultimaFavorita/${nom_usuario}`);
           if (!response.ok) {
             throw new Error('Error fetching ultimaFavorita');
           }
@@ -150,7 +150,7 @@ const Usuario = () => {
     useEffect(() => {
       const fetchPlataformaId = async () => {
         try {
-          const response = await fetch(`http://localhost:8080/user/plataformas/${nom_usuario}`);
+          const response = await fetch(`https://sipi-back.onrender.com/user/plataformas/${nom_usuario}`);
           if (!response.ok) {
             throw new Error('Error en la solicitud');
           }
