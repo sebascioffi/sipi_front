@@ -716,3 +716,9 @@ body{
   .sinopsis{
     color: #E86405;
   }
+
+  .error{
+      color:#f11616;
+      margin: auto;
+      margin-top: 10px;
+  }

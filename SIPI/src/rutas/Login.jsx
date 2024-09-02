@@ -4,7 +4,12 @@ import "../estilos/global.css"
 import { useNavigate } from 'react-router-dom';
 import movietracker from "../imagenes/movietrackerlogo2.png"
 
+const port = process.env.REACT_APP_ORIGIN;
+
 const Login = () => {
+
+  const [errorMessage, setErrorMessage] = useState('');
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -25,8 +30,13 @@ const handleSubmit = async (event) => {
   
   const { usuario, contraseña } = formData;
 
+  if (!usuario || !contraseña) {
+    setErrorMessage('Debes completar todos los datos obligatorios');
+    return;
+  }
+
   try {
-      const response = await fetch('https://sipi-back.onrender.com/user/login', {
+      const response = await fetch(`${port}/user/login`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -35,7 +45,8 @@ const handleSubmit = async (event) => {
       });
 
         if (response.status === 401){
-          throw new Error('Faltan datos necesarios');
+          setErrorMessage('Datos incorrectos');
+          return;
         }
 
       const responseData = await response.json();
@@ -84,6 +95,7 @@ const handleSubmit = async (event) => {
             onChange={handleInputChange} />
       </div>
       <button className="enviarbutton login" onClick={handleSubmit}>Enviar</button>
+      {errorMessage && <p className="error">{errorMessage}</p>}
     </div>
     </>
   )

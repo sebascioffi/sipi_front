@@ -5,6 +5,7 @@ import home from '../imagenes/homeusuario.png';
 import logout from '../imagenes/logout.png'; 
 import user from '../imagenes/user.png'; 
 
+const port = process.env.REACT_APP_ORIGIN;
 
 const GrupoUsuario = () => {
     const { nom_usuario } = useParams();
@@ -39,7 +40,7 @@ const GrupoUsuario = () => {
       useEffect(() => {
         const fetchFavoritas = async () => {
           try {
-            const response = await fetch(`https://sipi-back.onrender.com/user/favoritas/${nom_usuario}`);
+            const response = await fetch(`${port}/user/favoritas/${nom_usuario}`);
             if (!response.ok) {
               throw new Error('Error fetching favoritas');
             }
@@ -73,7 +74,7 @@ const GrupoUsuario = () => {
       useEffect(() => {
         const fetchPendientes = async () => {
           try {
-            const response = await fetch(`https://sipi-back.onrender.com/user/pendientes/${nom_usuario}`);
+            const response = await fetch(`${port}/user/pendientes/${nom_usuario}`);
             if (!response.ok) {
               throw new Error('Error fetching pendientes');
             }

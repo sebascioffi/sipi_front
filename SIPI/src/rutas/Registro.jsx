@@ -4,13 +4,15 @@ import "../estilos/global.css"
 import { useNavigate } from 'react-router-dom';
 import movietracker from "../imagenes/movietrackerlogo2.png"
 
+const port = process.env.REACT_APP_ORIGIN;
+
 const Registro = () => {
   const navigate = useNavigate();
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const platforms = [
     { name: 'Disney+', value:1},
-    { name: 'Star+',value:2},
     { name: 'Paramount+',value:3},
     { name: 'Netflix',value:4},
     { name: 'Prime Video',value:5},
@@ -37,6 +39,12 @@ const handleSubmit = async (event) => {
   event.preventDefault();
   
   const { usuario, contraseña, preguntaSeg, respuestaSeg } = formData;
+
+  if (!usuario || !contraseña || !respuestaSeg || selectedPlatforms.length === 0) {
+    setErrorMessage('Debes completar todos los datos obligatorios');
+    return;
+  }
+
   const userData = {
       nom_usuario: usuario,
       contraseña: contraseña,
@@ -46,7 +54,7 @@ const handleSubmit = async (event) => {
   };
 
   try {
-      const response = await fetch('https://sipi-back.onrender.com/user', {
+      const response = await fetch(`${port}/user`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json'
@@ -54,10 +62,9 @@ const handleSubmit = async (event) => {
           body: JSON.stringify(userData)
       });
 
-      if (!response.ok) {
-        if (response.status === 400){
-          throw new Error('Faltan datos necesarios');
-        }
+      if (response.status === 500){
+          setErrorMessage('Nombre de usuario ya existente');
+          return;
       }
 
       const responseData = await response.json();
@@ -147,6 +154,7 @@ const handleSubmit = async (event) => {
         </div>
       </div>
       <button className="enviarbutton" onClick={handleSubmit}>Enviar</button>
+      {errorMessage && <p className="error">{errorMessage}</p>}
     </div>
     </>
   )

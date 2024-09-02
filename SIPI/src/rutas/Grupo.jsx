@@ -6,6 +6,8 @@ import home from '../imagenes/homeusuario.png';
 import logout from '../imagenes/logout.png'; 
 import user from '../imagenes/user.png'; 
 
+const port = process.env.REACT_APP_ORIGIN;
+
 const Grupo = () => {
     const { nombre_grupo } = useParams();
     const TMDB_API_KEY = '5ac996f54892396a30e1c2b8dbf5b6ba';
@@ -29,7 +31,7 @@ const Grupo = () => {
     useEffect(() => {
         const fetchUsuarios = async () => {
             try {
-                const response = await fetch(`https://sipi-back.onrender.com/grupos/usuario/${nombre_grupo}`);
+                const response = await fetch(`${port}/grupos/usuario/${nombre_grupo}`);
                 if (!response.ok) {
                     throw new Error('Error al obtener usuarios del grupo');
                 }
@@ -60,7 +62,7 @@ const Grupo = () => {
 
       const obtenerUltimaFavorita = async (usuario) => {
         try {
-          const response = await fetch(`https://sipi-back.onrender.com/user/ultimaFavorita/${usuario}`);
+          const response = await fetch(`${port}/user/ultimaFavorita/${usuario}`);
           const data = await response.json();
           return data.ultimaFavorita;
         } catch (error) {

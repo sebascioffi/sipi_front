@@ -6,6 +6,8 @@ import movietracker from "../imagenes/movietrackerlogo2.png"
 import user from '../imagenes/user.png'; 
 import logout from '../imagenes/logout.png'; 
 
+const port = process.env.REACT_APP_ORIGIN;
+
 const MovieUsuario = () => {
 
     const { nom_usuario, id } = useParams();
@@ -16,7 +18,7 @@ const MovieUsuario = () => {
       // useEffect para comprobar si la película está en favoritas del usuario
   useEffect(() => {
     const obtenerFavoritasUsuario = async () => {
-        const url = `https://sipi-back.onrender.com/user/favoritas/${nom_usuario}`;
+        const url = `${port}/user/favoritas/${nom_usuario}`;
       
         return fetch(url)
           .then(response => {
@@ -40,7 +42,7 @@ const MovieUsuario = () => {
   // useEffect para comprobar si la película está en pendientes del usuario
   useEffect(() => {
     const obtenerPendientesUsuario = async () => {
-        const url = `https://sipi-back.onrender.com/user/pendientes/${nom_usuario}`;
+        const url = `${port}/user/pendientes/${nom_usuario}`;
       
         return fetch(url)
           .then(response => {
@@ -62,7 +64,7 @@ const MovieUsuario = () => {
   }, [nom_usuario, id]);
 
     const handleFavorita = () => {
-        const url = 'https://sipi-back.onrender.com/user/favorita';
+        const url = `${port}/user/favorita`;
     
         const requestOptions = {
           method: 'POST',
@@ -85,7 +87,7 @@ const MovieUsuario = () => {
       };
     
       const handlePendiente = () => {
-        const url = 'https://sipi-back.onrender.com/user/pendiente';
+        const url = `${port}/user/pendiente`;
     
         const requestOptions = {
           method: 'POST',
@@ -107,7 +109,7 @@ const MovieUsuario = () => {
           });
         };
         const handleEliminarFavorita = () => {
-            const url = `https://sipi-back.onrender.com/user/favorita/${id}`;
+            const url = `${port}/user/favorita/${id}`;
           
             const requestOptions = {
               method: 'DELETE',
@@ -128,7 +130,7 @@ const MovieUsuario = () => {
               });
           };
           const handleEliminarPendiente = () => {
-            const url = `https://sipi-back.onrender.com/user/pendiente/${id}`;
+            const url = `${port}/user/pendiente/${id}`;
           
             const requestOptions = {
               method: 'DELETE',

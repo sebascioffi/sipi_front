@@ -31,7 +31,6 @@ const Inicio = () => {
     useEffect(() => {
       const fetchData = async () => {
         if (!tipoSeleccionado && !generoSeleccionado && !plataformaSeleccionada && !añoSeleccionado) {
-          console.log("PELICULAS FILTRO VACIADO");
           setPeliculasFiltro([]);
           return;
         }
@@ -113,7 +112,6 @@ const Inicio = () => {
             return allResults.find(movie => movie.id === id);
           });
     
-        console.log(uniqueResults);
         setPeliculasFiltro(uniqueResults);
       };
     

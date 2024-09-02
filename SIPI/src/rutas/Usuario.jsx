@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "../estilos/global.css"
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import lupa from "../imagenes/lupa.png"
 import user from '../imagenes/user.png'; 
 import logout from '../imagenes/logout.png'; 
 import movietracker from "../imagenes/movietrackerlogo2.png"
+
+const port = process.env.REACT_APP_ORIGIN;
 
 
 const Usuario = () => {
@@ -42,7 +44,7 @@ const Usuario = () => {
       const fetchUltimaFavorita = async () => {
         try {
           // Llamada al endpoint de tu backend para obtener la última película favorita
-          const response = await fetch(`https://sipi-back.onrender.com/user/ultimaFavorita/${nom_usuario}`);
+          const response = await fetch(`${port}/user/ultimaFavorita/${nom_usuario}`);
           if (!response.ok) {
             throw new Error('Error fetching ultimaFavorita');
           }
@@ -100,7 +102,7 @@ const Usuario = () => {
       const fetchUltimaFavoritaGenero = async () => {
         try {
           // Llamada al endpoint de tu backend para obtener la última película favorita
-          const response = await fetch(`https://sipi-back.onrender.com/user/ultimaFavorita/${nom_usuario}`);
+          const response = await fetch(`${port}/user/ultimaFavorita/${nom_usuario}`);
           if (!response.ok) {
             throw new Error('Error fetching ultimaFavorita');
           }
@@ -150,7 +152,7 @@ const Usuario = () => {
     useEffect(() => {
       const fetchPlataformaId = async () => {
         try {
-          const response = await fetch(`https://sipi-back.onrender.com/user/plataformas/${nom_usuario}`);
+          const response = await fetch(`${port}/user/plataformas/${nom_usuario}`);
           if (!response.ok) {
             throw new Error('Error en la solicitud');
           }
@@ -164,7 +166,6 @@ const Usuario = () => {
             // Mapeo de IDs a los IDs correspondientes de TMDB
             const idMapping = {
               1: 337,
-              2: 619,
               3: 531,
               4: 8,
               5: 119,
@@ -174,7 +175,6 @@ const Usuario = () => {
   
             // Convierte el ID seleccionado al ID de TMDB correspondiente
             const tmdbId = idMapping[randomId];
-            console.log("ID DE PLATAFORMA: " + tmdbId);
             setTmdbId(tmdbId);
           }
         } catch (error) {
@@ -188,7 +188,6 @@ const Usuario = () => {
     useEffect(() => {
       const fetchData = async () => {
         if (!tipoSeleccionado && !generoSeleccionado && !plataformaSeleccionada && !añoSeleccionado) {
-          console.log("PELICULAS FILTRO VACIADO");
           setPeliculasFiltro([]);
           return;
         }
@@ -270,7 +269,6 @@ const Usuario = () => {
             return allResults.find(movie => movie.id === id);
           });
     
-        console.log(uniqueResults);
         setPeliculasFiltro(uniqueResults);
       };
     
@@ -297,7 +295,6 @@ const Usuario = () => {
         };
   
         const url = `${baseUrl}${endpoint}`;
-        console.log("Fetching URL:", url); // Depuración de la URL
         try {
           const response = await fetch(url, options);
           const data = await response.json();
@@ -323,9 +320,14 @@ const Usuario = () => {
       setBorderColor(value === '' ? '#E86405' : '#FFFFFF');
     };
     
-
+    const navigate = useNavigate();
     const toggleInput = () => {
         setShowInput((prev) => !prev);
+    };
+
+    const handleLogout = () => {
+      localStorage.removeItem('usuario'); // Elimina el ítem del localStorage
+      navigate('/');
     };
 
     const handleInputChange = (event) => {
@@ -459,9 +461,16 @@ const Usuario = () => {
             <span style={{color: "#ffffff"}}>{nom_usuario}</span>
             <img src={user} alt="User Icon" style={{ width: '39px', height: '39px' }} />
             </Link>
-            <Link to={`/`} style={{ display: 'flex', alignItems: 'center' }}>
-            <img src={logout} alt="Cerrar Sesión" style={{ width: '32px', height: '32px', marginLeft: "50px", marginRight:"40px"}} />
-            </Link>
+            <button
+      onClick={handleLogout}
+      style={{ display: 'flex', alignItems: 'center', background: 'none', border: 'none' }}
+    >
+      <img
+        src={logout}
+        alt="Cerrar Sesión"
+        style={{ width: '32px', height: '32px', marginLeft: '50px', marginRight: '40px' }}
+      />
+    </button>
         </div>
     </header>
     <main>
@@ -484,7 +493,6 @@ const Usuario = () => {
                 <option value="8">Netflix</option>
                 <option value="337">Disney+</option>
                 <option value="119">Prime Video</option>
-                <option value="619">Star+</option>
                 <option value="384">HBO Max</option>
                 <option value="350">Apple Tv</option>
                 <option value="531">Paramount</option>
@@ -576,7 +584,6 @@ const Usuario = () => {
    </svg>
    <h1 className='popmovies'>
   {tmdbId === 337 && "Que ver en Disney+"}
-  {tmdbId === 619 && "Que ver en Star+"}
   {tmdbId === 531 && "Que ver en Paramount+"}
   {tmdbId === 8 && "Que ver en Netflix"}
   {tmdbId === 119 && "Que ver en Prime Video"}

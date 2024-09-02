@@ -8,6 +8,8 @@ import grupoimg from "../imagenes/grupo.png"
 import withReactContent from 'sweetalert2-react-content';
 import Swal from 'sweetalert2';
 
+const port = process.env.REACT_APP_ORIGIN;
+
 const Perfil = () => {
 
     const { nom_usuario } = useParams();
@@ -23,7 +25,7 @@ const Perfil = () => {
     useEffect(() => {
       const fetchFavoritas = async () => {
         try {
-          const response = await fetch(`https://sipi-back.onrender.com/user/favoritas/${nom_usuario}`);
+          const response = await fetch(`${port}/user/favoritas/${nom_usuario}`);
           if (!response.ok) {
             throw new Error('Error fetching favoritas');
           }
@@ -57,7 +59,7 @@ const Perfil = () => {
     useEffect(() => {
       const fetchPendientes = async () => {
         try {
-          const response = await fetch(`https://sipi-back.onrender.com/user/pendientes/${nom_usuario}`);
+          const response = await fetch(`${port}/user/pendientes/${nom_usuario}`);
           if (!response.ok) {
             throw new Error('Error fetching pendientes');
           }
@@ -91,7 +93,7 @@ const Perfil = () => {
     useEffect(() => {
       const obtenerGrupos = async () => {
         try {
-          const response = await fetch(`https://sipi-back.onrender.com/grupos/${nom_usuario}`);
+          const response = await fetch(`${port}/grupos/${nom_usuario}`);
           const data = await response.json();
           if (response.ok) {
             setGrupos(data.grupos); // Suponiendo que la respuesta JSON tiene un campo "grupos" que es un arreglo de nombres de grupo
@@ -124,7 +126,7 @@ const Perfil = () => {
   
       if (nombreGrupo) {
         try {
-          const response = await fetch(`https://sipi-back.onrender.com/grupos/${nom_usuario}/${nombreGrupo}`, {
+          const response = await fetch(`${port}/grupos/${nom_usuario}/${nombreGrupo}`, {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
@@ -166,7 +168,7 @@ const Perfil = () => {
   
       if (nombreGrupo) {
           try {
-            const response = await fetch(`https://sipi-back.onrender.com/grupos/unirse/${nom_usuario}/${nombreGrupo}`, {
+            const response = await fetch(`${port}/grupos/unirse/${nom_usuario}/${nombreGrupo}`, {
               method: 'POST',
               headers: {
                 'Content-Type': 'application/json',
