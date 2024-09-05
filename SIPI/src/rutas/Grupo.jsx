@@ -98,7 +98,10 @@ const Grupo = () => {
         }
       }, [usuarios]);
 
-
+      const handleLogout = () => {
+        localStorage.removeItem('usuario'); // Elimina el ítem del localStorage
+        navigate('/');
+      };
 
   return (
     <>
@@ -118,9 +121,16 @@ const Grupo = () => {
         <Link to={`/${usuarioActual}`} style={{ display: 'flex', alignItems: 'center' }}>
         <img src={home} alt="User Icon" style={{ width: '39px', height: '39px' }} />
         </Link>
-        <Link to={`/`} style={{ display: 'flex', alignItems: 'center' }}>
-        <img src={logout} alt="Cerrar Sesión" style={{ width: '32px', height: '32px', marginLeft: "50px", marginRight:"40px"}} />
-        </Link>
+        <button
+      onClick={handleLogout}
+      style={{ display: 'flex', alignItems: 'center', background: 'none', border: 'none' }}
+    >
+      <img
+        src={logout}
+        alt="Cerrar Sesión"
+        style={{ width: '32px', height: '32px', marginLeft: '50px', marginRight: '40px' }}
+      />
+    </button>
     </div>
     <div className='encabezado inicio'>
             <h2 className='encabezado-h2'>{nombre_grupo}</h2>

@@ -202,6 +202,11 @@ const MovieUsuario = () => {
     
       fetchMovie();
     }, [id]);
+
+    const handleLogout = () => {
+      localStorage.removeItem('usuario'); // Elimina el ítem del localStorage
+      navigate('/');
+    };
     
     
       
@@ -220,9 +225,16 @@ const MovieUsuario = () => {
             <span style={{color: "#ffffff"}}>{nom_usuario}</span>
             <img src={user} alt="User Icon" style={{ width: '39px', height: '39px' }} />
             </Link>
-            <Link to={`/`} style={{ display: 'flex', alignItems: 'center' }}>
-            <img src={logout} alt="Cerrar Sesión" style={{ width: '32px', height: '32px', marginLeft: "50px", marginRight:"40px"}} />
-            </Link>
+            <button
+      onClick={handleLogout}
+      style={{ display: 'flex', alignItems: 'center', background: 'none', border: 'none' }}
+    >
+      <img
+        src={logout}
+        alt="Cerrar Sesión"
+        style={{ width: '32px', height: '32px', marginLeft: '50px', marginRight: '40px' }}
+      />
+    </button>
         </div>
     </header>
     <main className='movie-details'>

@@ -197,6 +197,11 @@ const Perfil = () => {
     const containerRef1 = useRef(null);
     const containerRef2 = useRef(null);
     const containerRef3 = useRef(null);
+
+    const handleLogout = () => {
+      localStorage.removeItem('usuario'); // Elimina el ítem del localStorage
+      navigate('/');
+    };
     
     const scrollContainer1 = (direction) => {
       if (direction === 'left') {
@@ -236,9 +241,16 @@ const Perfil = () => {
             <Link to={`/${nom_usuario}`} style={{ display: 'flex', alignItems: 'center' }}>
             <img src={home} alt="User Icon" style={{ width: '39px', height: '39px' }} />
             </Link>
-            <Link to={`/`} style={{ display: 'flex', alignItems: 'center' }}>
-            <img src={logout} alt="Cerrar Sesión" style={{ width: '32px', height: '32px', marginLeft: "50px", marginRight:"40px"}} />
-            </Link>
+            <button
+      onClick={handleLogout}
+      style={{ display: 'flex', alignItems: 'center', background: 'none', border: 'none' }}
+    >
+      <img
+        src={logout}
+        alt="Cerrar Sesión"
+        style={{ width: '32px', height: '32px', marginLeft: '50px', marginRight: '40px' }}
+      />
+    </button>
         </div>
     </header>
     <main>
