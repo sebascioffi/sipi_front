@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import userpng from '../imagenes/user.png'; 
 import movietracker from '../imagenes/movietrackerlogo2.png'; 
 import home from '../imagenes/homeusuario.png'; 
@@ -97,6 +97,8 @@ const Grupo = () => {
           fetchRecomendaciones();
         }
       }, [usuarios]);
+
+      const navigate = useNavigate();
 
       const handleLogout = () => {
         localStorage.removeItem('usuario'); // Elimina el ítem del localStorage

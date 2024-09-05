@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import React, { useEffect, useState } from 'react'
 import "../estilos/global.css"
 import { Link } from "react-router-dom"
@@ -202,6 +202,8 @@ const MovieUsuario = () => {
     
       fetchMovie();
     }, [id]);
+
+    const navigate = useNavigate();
 
     const handleLogout = () => {
       localStorage.removeItem('usuario'); // Elimina el ítem del localStorage

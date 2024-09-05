@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import "../estilos/global.css"
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import home from '../imagenes/homeusuario.png'; 
 import logout from '../imagenes/logout.png'; 
 import movietracker from "../imagenes/movietrackerlogo2.png"
@@ -197,6 +197,8 @@ const Perfil = () => {
     const containerRef1 = useRef(null);
     const containerRef2 = useRef(null);
     const containerRef3 = useRef(null);
+
+    const navigate = useNavigate();
 
     const handleLogout = () => {
       localStorage.removeItem('usuario'); // Elimina el ítem del localStorage
