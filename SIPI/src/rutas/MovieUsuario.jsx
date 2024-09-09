@@ -5,6 +5,7 @@ import { Link } from "react-router-dom"
 import movietracker from "../imagenes/movietrackerlogo2.png"
 import user from '../imagenes/user.png'; 
 import logout from '../imagenes/logout.png'; 
+import volver from "../imagenes/iconovolver.png"
 
 const port = process.env.REACT_APP_ORIGIN;
 
@@ -205,6 +206,10 @@ const MovieUsuario = () => {
 
     const navigate = useNavigate();
 
+    const handleGoBack = () => {
+      navigate(-1); // Esto te lleva a la página anterior
+    };
+
     const handleLogout = () => {
       localStorage.removeItem('usuario'); // Elimina el ítem del localStorage
       navigate('/');
@@ -240,6 +245,9 @@ const MovieUsuario = () => {
         </div>
     </header>
     <main className='movie-details'>
+    <Link onClick={handleGoBack} className="volver">
+      <img src={volver} alt="Volver" className="imgvolver" />
+    </Link>
   {movie && (
     <div className='movie-info'>
       <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} className='movie-posterpag' />

@@ -21,10 +21,20 @@ const Grupo = () => {
     const containerRef1 = useRef(null);
 
     const scrollContainer1 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
         if (direction === 'left') {
-          containerRef1.current.scrollBy({ left: -600, behavior: 'smooth' });
+          containerRef1.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
         } else {
-          containerRef1.current.scrollBy({ left: 600, behavior: 'smooth' });
+          containerRef1.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+        }
+    };
+
+    const scrollContainer2 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
+        if (direction === 'left') {
+          containerRef1.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+        } else {
+          containerRef1.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
     };
 
@@ -108,7 +118,7 @@ const Grupo = () => {
   return (
     <>
     <header className='header grupoheader'>
-    <div className='menu'>
+    <div className='menu menuheader'>
     <Link to={`/${usuarioActual}`} className='movietrackerbtnusuario'>
         <img
           src={movietracker}
@@ -116,7 +126,7 @@ const Grupo = () => {
           className='movietracker'
         />
         </Link>
-        <Link to={`/perfil/${usuarioActual}`} style={{ display: 'flex', alignItems: 'center', marginRight: "40px" }}>
+        <Link className="usuarioactualgrupo" to={`/perfil/${usuarioActual}`} style={{ display: 'flex', alignItems: 'center', marginRight: "40px" }}>
             <span style={{color: "#ffffff"}}>{usuarioActual}</span>
             <img src={user} alt="User Icon" style={{ width: '39px', height: '39px' }} />
             </Link>
@@ -130,6 +140,7 @@ const Grupo = () => {
       <img
         src={logout}
         alt="Cerrar Sesión"
+        className="logoutgrupo"
         style={{ width: '32px', height: '32px', marginLeft: '50px', marginRight: '40px' }}
       />
     </button>
@@ -178,7 +189,7 @@ const Grupo = () => {
   <h1 className='gruposh1'>Recomendaciones según los gustos de los usuarios del grupo</h1>
 </div>
  <div className="movies-wrapper">
-   <button className="nav-button left" onClick={() => scrollContainer1('left')}>{'<'}</button>
+   <button className="nav-button left" onClick={() => scrollContainer2('left')}>{'<'}</button>
    <div className="movies-container" ref={containerRef1}>
   {recomendaciones.length === 0 ? (
     <p className='sinpeliculas'>No hay recomendaciones</p>
@@ -196,7 +207,7 @@ const Grupo = () => {
     ))
   )}
 </div>
-   <button className="nav-button right" onClick={() => scrollContainer1('right')}>{'>'}</button>
+   <button className="nav-button right" onClick={() => scrollContainer2('right')}>{'>'}</button>
  </div>
 </div>
 </main>

@@ -401,42 +401,47 @@ const Usuario = () => {
     };
     
     const scrollContainer1 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
       if (direction === 'left') {
-        containerRef1.current.scrollBy({ left: -600, behavior: 'smooth' });
+        containerRef1.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
-        containerRef1.current.scrollBy({ left: 600, behavior: 'smooth' });
+        containerRef1.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
     };
 
     const scrollContainer2 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
       if (direction === 'left') {
-        containerRef2.current.scrollBy({ left: -600, behavior: 'smooth' });
+        containerRef2.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
-        containerRef2.current.scrollBy({ left: 600, behavior: 'smooth' });
+        containerRef2.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
     };
 
     const scrollContainer3 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
       if (direction === 'left') {
-        containerRef3.current.scrollBy({ left: -600, behavior: 'smooth' });
+        containerRef3.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
-        containerRef3.current.scrollBy({ left: 600, behavior: 'smooth' });
+        containerRef3.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
     };
 
     const scrollContainer4 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
       if (direction === 'left') {
-        containerRef4.current.scrollBy({ left: -600, behavior: 'smooth' });
+        containerRef4.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
-        containerRef4.current.scrollBy({ left: 600, behavior: 'smooth' });
+        containerRef4.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
     };
 
     const scrollContainer5 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
       if (direction === 'left') {
-        containerRef5.current.scrollBy({ left: -600, behavior: 'smooth' });
+        containerRef5.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
-        containerRef5.current.scrollBy({ left: 600, behavior: 'smooth' });
+        containerRef5.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
     };
   

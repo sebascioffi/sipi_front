@@ -1,9 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import movietracker from '../imagenes/movietrackerlogo2.png'; 
 import home from '../imagenes/homeusuario.png'; 
 import logout from '../imagenes/logout.png'; 
 import user from '../imagenes/user.png'; 
+import volver from "../imagenes/iconovolver.png"
 
 const port = process.env.REACT_APP_ORIGIN;
 
@@ -16,24 +17,32 @@ const GrupoUsuario = () => {
     const [pendientesResults, setPendientesResults] = useState([]);
     const API_KEY = '5ac996f54892396a30e1c2b8dbf5b6ba';
     const usuarioActual = localStorage.getItem('usuario');
+    const navigate = useNavigate();
+
+    const handleGoBack = () => {
+      navigate(-1); // Esto te lleva a la página anterior
+    };
+
 
 
     const containerRef1 = useRef(null);
     const containerRef2 = useRef(null);
 
     const scrollContainer1 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
         if (direction === 'left') {
-          containerRef1.current.scrollBy({ left: -600, behavior: 'smooth' });
+          containerRef1.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
         } else {
-          containerRef1.current.scrollBy({ left: 600, behavior: 'smooth' });
+          containerRef1.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
       };
 
       const scrollContainer2 = (direction) => {
+        const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
         if (direction === 'left') {
-          containerRef1.current.scrollBy({ left: -600, behavior: 'smooth' });
+          containerRef1.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
         } else {
-          containerRef1.current.scrollBy({ left: 600, behavior: 'smooth' });
+          containerRef1.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
         }
       };
 
@@ -129,6 +138,9 @@ const GrupoUsuario = () => {
     </div>
 </header>
 <main>
+<Link onClick={handleGoBack} className="volver">
+      <img src={volver} alt="Volver" className="imgvolver volverimagengrupo" />
+    </Link>
 <div className="container-m">
  <div className='container-tm'>
    <svg width="19" height="19" viewBox="0 0 19 19" fill="none" xmlns="http://www.w3.org/2000/svg">

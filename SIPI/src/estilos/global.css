@@ -225,7 +225,9 @@ body{
 
 @media screen and (max-width: 953px){
     .filter-container {
-        flex-direction: column;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: start;
     }
     .selectdiv{
         gap: 15px;
@@ -722,3 +724,138 @@ body{
       margin: auto;
       margin-top: 10px;
   }
+
+  @media screen and (max-width: 700px){
+    .movietracker{
+      width: 120px;
+    }
+    .btn.btn-registrate{
+      border: none; /* Borde de color #E86405 */
+      background-color: transparent; /* Fondo blanco */
+      color: #E86405; /* Texto de color #E86405 */
+      margin: 0;
+    }
+    .btn.btn-inicia-sesion{
+      border: none; /* Borde de color #E86405 */
+      background-color: transparent; /* Fondo blanco */
+      color: #E86405; /* Texto de color #E86405 */
+      margin: 0;
+    }
+    .providers{
+      flex-direction: column;
+    }
+    .main-actors{
+      flex-direction: column;
+    }
+}
+
+@media screen and (max-width: 500px){
+  .movietrackerbtn{
+    display: none;
+  }
+  .movietracker{
+    display: none;
+  }
+  .btn.btn-registrate{
+    border: none; /* Borde de color #E86405 */
+    background-color: transparent; /* Fondo blanco */
+    color: #E86405; /* Texto de color #E86405 */
+    margin: 0;
+  }
+  .btn.btn-inicia-sesion{
+    border: none; /* Borde de color #E86405 */
+    background-color: transparent; /* Fondo blanco */
+    color: #E86405; /* Texto de color #E86405 */
+    margin: 0;
+  }
+  .header{
+    height: 350px;
+  }
+  .encabezado-h2{
+    font-size: 1.2em;
+  }
+  .encabezado-p{
+    font-size: 0.81em;
+  }
+  .encabezado-p-com{
+    font-size: 0.91em;
+    margin-top: 14px;
+  }
+  .filter-container {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .buttons{
+    flex-direction: column;
+  }
+  .providers{
+    flex-direction: column;
+  }
+  .main-actors {
+    flex-direction: column;
+  }
+}
+
+@media screen and (max-width: 953px){
+  .movie {
+    flex: 0 0 auto;
+    width: 100px;
+}
+
+.movie-poster {
+    width: 100%;
+    border-radius: 10px;
+}
+}
+
+@media screen and (max-width: 1195px){
+  .form-container{
+    width: 70%;
+  }
+  .platform{
+    width: 130px !important;
+  }
+}
+
+@media screen and (max-width: 940px){
+  .movie-info {
+    flex-direction: column !important;
+    align-items: center !important;
+    width: 70%;
+  }
+  .title-and-buttons {
+    flex-direction: column;
+    align-items: start;
+  }
+  .btn-favorite{
+    margin: 0;
+  }
+  .btn-favorite-removed,
+  .btn-pending-removed {
+    margin: 0;
+  }
+}
+
+.volver{
+  align-self: start;
+}
+
+.imgvolver{
+  height: 40px;
+  width: 40px;
+  margin-left: 2%;
+}
+
+@media screen and (max-width: 585px){
+  .header.grupoheader .menu.menuheader .movietrackerbtnusuario{
+    display: none;
+  }
+  .header.grupoheader{
+    height: 170px;
+  }
+}
+
+.imgvolver.volverimagengrupo{
+  margin-top: 20px;
+}

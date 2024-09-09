@@ -20,6 +20,31 @@ const Perfil = () => {
     const [pendientesResults, setPendientesResults] = useState([]);
     const [grupos, setGrupos] = useState([]);
     const [agregado, setAgregado] = useState(false);
+    const [labelText, setLabelText] = useState('Crear Grupo');
+    const [labelText2, setLabelText2] = useState('Unirse a un Grupo');
+
+    useEffect(() => {
+      const handleResize = () => {
+        if (window.innerWidth <= 500) {
+          setLabelText('Crear');
+          setLabelText2("Unirse")
+        } else {
+          setLabelText('Crear Grupo');
+          setLabelText2('Unirse a un Grupo');
+        }
+      };
+  
+      // Ejecuta la función al cargar la página
+      handleResize();
+  
+      // Añade un listener para detectar cambios en el tamaño de la pantalla
+      window.addEventListener('resize', handleResize);
+  
+      // Limpia el listener cuando el componente se desmonta
+      return () => {
+        window.removeEventListener('resize', handleResize);
+      };
+    }, []);
     const API_KEY = '5ac996f54892396a30e1c2b8dbf5b6ba';
 
     useEffect(() => {
@@ -206,26 +231,29 @@ const Perfil = () => {
     };
     
     const scrollContainer1 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
       if (direction === 'left') {
-        containerRef1.current.scrollBy({ left: -600, behavior: 'smooth' });
+        containerRef1.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
-        containerRef1.current.scrollBy({ left: 600, behavior: 'smooth' });
+        containerRef1.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
     };
 
     const scrollContainer2 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
       if (direction === 'left') {
-        containerRef2.current.scrollBy({ left: -600, behavior: 'smooth' });
+        containerRef2.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
-        containerRef2.current.scrollBy({ left: 600, behavior: 'smooth' });
+        containerRef2.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
     };  
 
     const scrollContainer3 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
       if (direction === 'left') {
-        containerRef3.current.scrollBy({ left: -600, behavior: 'smooth' });
+        containerRef3.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
-        containerRef3.current.scrollBy({ left: 600, behavior: 'smooth' });
+        containerRef3.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
     };  
 
@@ -322,8 +350,8 @@ const Perfil = () => {
     <path d="M19 9.025L0 19V0L19 9.025Z" fill="#E86405"/>
   </svg>
   <h1 className='gruposh1'>Mis Grupos</h1>
-  <button className='btn-group crear' onClick={handleCrearGrupo}>Crear Grupo</button>
-  <button className='btn-group' onClick={buscarGrupo}>Unirse a un grupo</button>
+  <button className='btn-group crear' onClick={handleCrearGrupo}>{labelText}</button>
+  <button className='btn-group unirse' onClick={buscarGrupo}>{labelText2}</button>
 </div>
  <div className="movies-wrapper">
    <button className="nav-button left" onClick={() => scrollContainer3('left')}>{'<'}</button>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom"
 import "../estilos/global.css"
 import { useNavigate } from 'react-router-dom';
@@ -10,6 +10,28 @@ const Registro = () => {
   const navigate = useNavigate();
   const [selectedPlatforms, setSelectedPlatforms] = useState([]);
   const [errorMessage, setErrorMessage] = useState('');
+  const [labelText, setLabelText] = useState('Nombre de Usuario');
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 500) {
+        setLabelText('Usuario');
+      } else {
+        setLabelText('Nombre de Usuario');
+      }
+    };
+
+    // Ejecuta la función al cargar la página
+    handleResize();
+
+    // Añade un listener para detectar cambios en el tamaño de la pantalla
+    window.addEventListener('resize', handleResize);
+
+    // Limpia el listener cuando el componente se desmonta
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const platforms = [
     { name: 'Disney+', value:1},
@@ -107,7 +129,7 @@ const handleSubmit = async (event) => {
     </header>
     <div className="form-container">
       <div>
-        <label>Nombre de Usuario:</label>
+        <label>{labelText}</label>
         <input type="text"
                     name="usuario"
                     value={formData.usuario}

@@ -1,15 +1,21 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import React, { useEffect, useState } from 'react'
 import "../estilos/global.css"
 import { Link } from "react-router-dom"
 import movietracker from "../imagenes/movietrackerlogo2.png"
 import 'sweetalert2/src/sweetalert2.scss';
 import Swal from "sweetalert2"
+import volver from "../imagenes/iconovolver.png"
 
 const Movie = () => {
 
     const { id } = useParams();
     const [movie, setMovie]=useState([])
+    const navigate = useNavigate();
+
+    const handleGoBack = () => {
+      navigate(-1); // Esto te lleva a la página anterior
+    };
 
     const handleButtonClick = () => {
       Swal.fire({
@@ -93,6 +99,9 @@ const Movie = () => {
         </div>
     </header>
     <main className='movie-details'>
+    <Link onClick={handleGoBack} className="volver">
+      <img src={volver} alt="Volver" className="imgvolver" />
+    </Link>
   {movie && (
     <div className='movie-info'>
       <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} className='movie-posterpag' />

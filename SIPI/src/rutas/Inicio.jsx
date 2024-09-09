@@ -230,26 +230,29 @@ const Inicio = () => {
     };
     
     const scrollContainer1 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
       if (direction === 'left') {
-        containerRef1.current.scrollBy({ left: -600, behavior: 'smooth' });
+        containerRef1.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
-        containerRef1.current.scrollBy({ left: 600, behavior: 'smooth' });
+        containerRef1.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
     };
 
     const scrollContainer2 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
       if (direction === 'left') {
-        containerRef2.current.scrollBy({ left: -600, behavior: 'smooth' });
+        containerRef2.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
-        containerRef2.current.scrollBy({ left: 600, behavior: 'smooth' });
+        containerRef2.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
     };
 
     const scrollContainer3 = (direction) => {
+      const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
       if (direction === 'left') {
-        containerRef3.current.scrollBy({ left: -600, behavior: 'smooth' });
+        containerRef3.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
       } else {
-        containerRef3.current.scrollBy({ left: 600, behavior: 'smooth' });
+        containerRef3.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
       }
     };
   
