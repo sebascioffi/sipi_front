@@ -67,6 +67,11 @@ const handleSubmit = async (event) => {
     return;
   }
 
+  if (contraseña.length < 6) {
+    setErrorMessage('La contraseña debe tener al menos 6 caracteres');
+    return;
+  }
+
   const userData = {
       nom_usuario: usuario,
       contraseña: contraseña,
