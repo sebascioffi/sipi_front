@@ -71,6 +71,11 @@ const handleSubmit = async (event) => {
           return;
         }
 
+        if (!response.ok) {
+          setErrorMessage("Servidor no disponible");
+          return;
+        }
+
       const responseData = await response.json();
       console.log('Inicio de sesión exitoso:', responseData);
       localStorage.setItem('usuario', usuario);
