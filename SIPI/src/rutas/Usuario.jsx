@@ -86,8 +86,9 @@ const Usuario = () => {
         combinedResults = combinedResults.filter((movie, index, self) =>
           index === self.findIndex((m) => m.id === movie.id)
         );
-        combinedResults = combinedResults.filter(movie => movie.id !== peliculaId);
+        combinedResults = combinedResults.filter(movie => movie.id !== Number(peliculaId));
         setFavSimilares(combinedResults);
+
       } catch (error) {
         console.error('Error fetching data:', error);
       }
