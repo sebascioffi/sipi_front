@@ -466,7 +466,7 @@ const Usuario = () => {
             />
           </Link>
           <Link to={`/perfil/${nom_usuario}`} style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-            <span style={{ color: "#ffffff" }}>{nom_usuario}</span>
+            <span className='span_nomusuario' style={{ color: "#ffffff" }}>{nom_usuario}</span>
             <img src={user} alt="User Icon" style={{ width: '39px', height: '39px' }} />
           </Link>
 

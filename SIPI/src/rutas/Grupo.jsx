@@ -19,6 +19,8 @@ const Grupo = () => {
   const [recomendaciones, setRecomendaciones] = useState([]);
 
   const containerRef1 = useRef(null);
+  const containerRef2 = useRef(null);
+
 
   const scrollContainer1 = (direction) => {
     const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
@@ -32,9 +34,9 @@ const Grupo = () => {
   const scrollContainer2 = (direction) => {
     const scrollAmount = window.innerWidth <= 700 ? 300 : 600;
     if (direction === 'left') {
-      containerRef1.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+      containerRef2.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
     } else {
-      containerRef1.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+      containerRef2.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
@@ -126,8 +128,8 @@ const Grupo = () => {
               className='movietracker'
             />
           </Link>
-          <Link className="usuarioactualgrupo" to={`/perfil/${usuarioActual}`} style={{ display: 'flex', alignItems: 'center', marginRight: "40px" }}>
-            <span style={{ color: "#ffffff" }}>{usuarioActual}</span>
+          <Link className="usuarioactualgrupo" to={`/perfil/${usuarioActual}`} style={{ display: 'flex', alignItems: 'center', marginRight: "40px", textDecoration: "none" }}>
+            <span className="span_nomusuario" style={{ color: "#ffffff" }}>{usuarioActual}</span>
             <img src={user} alt="User Icon" style={{ width: '39px', height: '39px' }} />
           </Link>
           <Link to={`/${usuarioActual}`} style={{ display: 'flex', alignItems: 'center' }}>
@@ -190,7 +192,7 @@ const Grupo = () => {
           </div>
           <div className="movies-wrapper">
             <button className="nav-button left" onClick={() => scrollContainer2('left')}>{'<'}</button>
-            <div className="movies-container" ref={containerRef1}>
+            <div className="movies-container" ref={containerRef2}>
               {recomendaciones.length === 0 ? (
                 <p className='sinpeliculas'>No hay recomendaciones</p>
               ) : (
