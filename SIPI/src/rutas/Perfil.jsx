@@ -360,15 +360,13 @@ const Perfil = () => {
                 <p className='sinpeliculas'>No te has unido a ningún grupo</p>
               ) : (
                 grupos.map((grupo, index) => (
-                  <Link to={`/grupo/${grupo}`} key={index}>
+                  <Link to={`/grupo/${grupo}`} key={index} style={{ textDecoration: 'none' }}>
                     <div className="grupo">
-                      <img
-                        src={grupoimg}
-                        className="grupo-poster"
-                      />
+                      <img src={grupoimg} className="grupo-poster" />
                       <p>{grupo}</p>
                     </div>
                   </Link>
+
                 ))
               )}
             </div>
